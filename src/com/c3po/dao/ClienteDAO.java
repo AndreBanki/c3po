@@ -12,7 +12,7 @@ import com.c3po.entidade.Cliente;
 
 public class ClienteDAO extends BaseDAO{
 
-// métodos de busca
+// mï¿½todos de busca
 	
 	public Cliente buscaPorCpf(String cpf) {
 		EntityManager manager = getConnection();
@@ -20,7 +20,9 @@ public class ClienteDAO extends BaseDAO{
 		Cliente cliente = null;
 		try {
 			Query q = manager.createQuery("select c from Cliente c where c.cpf='" + cpf + "'");
-			cliente = (Cliente) q.getSingleResult();			
+                        if (q.getResultList().size()>0){
+                            cliente = (Cliente) q.getSingleResult();			
+                        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -44,7 +46,7 @@ public class ClienteDAO extends BaseDAO{
 		return cliente;
 	}
 		
-// métodos CRUD	
+// mï¿½todos CRUD	
 	
 	public List<Cliente> listarTodos() {
 		List<Cliente> lista = new ArrayList<Cliente>();
@@ -64,8 +66,11 @@ public class ClienteDAO extends BaseDAO{
 	public void salvar(Cliente cliente) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			manager.merge(cliente);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
@@ -76,9 +81,12 @@ public class ClienteDAO extends BaseDAO{
 	public void apagar(Cliente cliente) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			cliente = manager.find(Cliente.class, cliente.getId());
 			manager.merge(cliente);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();

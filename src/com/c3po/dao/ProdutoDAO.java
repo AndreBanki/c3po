@@ -65,7 +65,7 @@ public class ProdutoDAO extends BaseDAO{
 		EntityManager manager = getConnection();
 		try {
                         manager.getTransaction().begin();
-			manager.persist(Produto);
+			manager.merge(Produto);
                         manager.getTransaction().commit();
 		} catch (Exception e) {
                         manager.getTransaction().rollback();
@@ -81,7 +81,7 @@ public class ProdutoDAO extends BaseDAO{
 		try {
                         manager.getTransaction().begin();
 			Produto = manager.find(Produto.class, Produto.getId());
-			manager.merge(Produto);
+			manager.remove(Produto);
                         manager.getTransaction().commit();
 		} catch (Exception e) {
                         manager.getTransaction().rollback();

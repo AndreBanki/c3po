@@ -8,10 +8,10 @@
 <ui:define name="conteudo">
 	<h:form id="formMain"> 
   		<center>
-		<p:dataTable var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable">
-			<p:column sortBy="#{v.nome}">
+		<p:dataTable  var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable">
+                    <p:column sortBy="#{v.descricao}">
 				<f:facet name="header">Nome</f:facet>
-				<p:commandLink value="#{v.nome}" 
+                                <p:commandLink value="#{v.descricao}" 
 				               update=":editaWidget" process="@form" 
 				               oncomplete="PF('editaDlg').show()">
 					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
@@ -19,11 +19,9 @@
 				</p:column>			
 			<p:column sortBy="#{v.valor}">
 				<f:facet name="header">Valor</f:facet>
-				<p:commandLink value="#{v.valor}" 
-				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
-					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
-				</p:commandLink>
+                                <p:outputLabel value="#{v.valor}" style="text-align: right;" >
+                                        <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:outputLabel>
 				</p:column>			
 			<p:column width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
@@ -35,6 +33,7 @@
 		</p:dataTable>
 		</center>
 		<div align="left">
+                    <br></br>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
 			                 onclick="PF('editaDlg').show();" />
@@ -51,7 +50,7 @@
 				                 update=":formMain:dataWidget" process="@form" 
 				                 action="#{produtoMB.apagarProduto}" 
 				                 oncomplete="PF('confirmaDlg').hide();" />
-				<p:commandButton value="Não" 
+                                <p:commandButton value="Não" action="#{produtoMB.apagarProduto()}"
 				                 update=":formMain:dataWidget" process="@form" 
 				                 oncomplete="PF('confirmaDlg').hide();" />
 			</h:panelGrid>
@@ -63,9 +62,11 @@
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome*: " /> 
-				<p:inputText id="nome" value="#{produtoMB.produtoEmEdicao.nome}" required="true" />
+                                <p:inputText id="nome" value="#{produtoMB.produtoEmEdicao.descricao}" required="true" />
 				<h:outputText value="Valor*: " /> 
-				<p:inputText id="cpf" value="#{produtoMB.produtoEmEdicao.valor}" required="true" />
+                                <p:inputText id="valor" value="#{produtoMB.produtoEmEdicao.valor}" required="true" style="text-align: right;" >
+                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:inputText>
 			</p:panelGrid>
 			<p:message for="nome" />
 			<br/>
