@@ -7,8 +7,12 @@
 <h:head>
 	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
 </h:head> 
-<h:body> 
-	<ui:include src="/fragments/navbar.xhtml" />
-	<ui:insert name="conteudo" />
+<h:body style="background-color:#7E9ECE"> 
+	<div class="container-fluid" >
+		<ui:include src="/fragments/navbar.xhtml" />
+	</div>
+	<div class="container-fluid">
+		<ui:insert name="conteudo" />
+	</div>
 </h:body> 
 </html>
