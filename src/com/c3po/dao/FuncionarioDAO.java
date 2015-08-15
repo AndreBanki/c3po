@@ -1,19 +1,16 @@
 package com.c3po.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.c3po.entidade.Cliente;
 import com.c3po.entidade.Funcionario;
 
 public class FuncionarioDAO extends BaseDAO {
 
-// métodos de busca
+// mï¿½todos de busca
 	
 	public Funcionario buscaPorCpf(String cpf) {
 		EntityManager manager = getConnection();
@@ -45,7 +42,7 @@ public class FuncionarioDAO extends BaseDAO {
 		return funcionario;
 	}
 		
-// métodos CRUD	
+// mï¿½todos CRUD	
 	
 	public List<Funcionario> listarTodos() {
 		List<Funcionario> lista = new ArrayList<Funcionario>();
@@ -65,8 +62,11 @@ public class FuncionarioDAO extends BaseDAO {
 	public void salvar(Funcionario funcionario) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			manager.merge(funcionario);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
@@ -76,10 +76,13 @@ public class FuncionarioDAO extends BaseDAO {
 		
 	public void apagar(Funcionario funcionario) {
 		EntityManager manager = getConnection();
-		try {
+		try { 
+                        manager.getTransaction().begin();
 			funcionario = manager.find(Funcionario.class, funcionario.getId());
 			manager.merge(funcionario);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();

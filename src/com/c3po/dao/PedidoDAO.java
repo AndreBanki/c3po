@@ -14,7 +14,7 @@ import com.c3po.entidade.Produto;
 public class PedidoDAO extends BaseDAO{
 	
 	
-// métodos que lidam com a lista geral de Pedidos	
+// mï¿½todos que lidam com a lista geral de Pedidos	
 
 	public List<Pedido> listarTodos() {
 		List<Pedido> lista = new ArrayList<Pedido>();
@@ -34,23 +34,29 @@ public class PedidoDAO extends BaseDAO{
 	public void inserir(Pedido pedido) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			manager.merge(pedido);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
 		}
 	}
 		
-// métodos que lidam com a lista de ItemPedido de um Pedido	
+// mï¿½todos que lidam com a lista de ItemPedido de um Pedido	
 
 	
 			
 	public void inserirItem(ItemPedido item) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			manager.merge(item);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
@@ -61,9 +67,12 @@ public class PedidoDAO extends BaseDAO{
 	public void retirarItem(ItemPedido item) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			item = manager.find(ItemPedido.class, item.getId());
 			manager.merge(item);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();

@@ -12,7 +12,7 @@ import com.c3po.entidade.Produto;
 
 public class ProdutoDAO extends BaseDAO{
 
-// métodos de busca
+// mï¿½todos de busca
 	
 	public Produto buscaPorNome(String nome) {
 		EntityManager manager = getConnection();
@@ -44,14 +44,14 @@ public class ProdutoDAO extends BaseDAO{
 		return Produto;
 	}
 		
-// métodos CRUD	
+// mï¿½todos CRUD	
 	
 	public List<Produto> listarTodos() {
 		List<Produto> lista = new ArrayList<Produto>();
 		EntityManager manager = getConnection();
         manager.getTransaction().begin();
 		try {
-			Query q = manager.createQuery("select c from Produto c order by c.nome");
+			Query q = manager.createQuery("select c from Produto c order by c.descricao");
 			lista = q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,8 +64,11 @@ public class ProdutoDAO extends BaseDAO{
 	public void salvar(Produto Produto) {
 		EntityManager manager = getConnection();
 		try {
-			manager.merge(Produto);
+                        manager.getTransaction().begin();
+			manager.persist(Produto);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
@@ -76,9 +79,12 @@ public class ProdutoDAO extends BaseDAO{
 	public void apagar(Produto Produto) {
 		EntityManager manager = getConnection();
 		try {
+                        manager.getTransaction().begin();
 			Produto = manager.find(Produto.class, Produto.getId());
 			manager.merge(Produto);
+                        manager.getTransaction().commit();
 		} catch (Exception e) {
+                        manager.getTransaction().rollback();
 			e.printStackTrace();
 		}finally{
 			fechar();
