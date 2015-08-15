@@ -37,14 +37,14 @@ public class ClienteMB {
 		clienteEmEdicao = new Cliente();
 	}
 	
-	private Cliente clienteMesmoNome(Cliente cliente) {
-		Cliente fabIgual = new Cliente();
-		for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext() && fabIgual.getId() == 0; ) {    
-			Cliente f = (Cliente) iterator.next();    
-			if (f.getNome().equals(cliente.getNome()))
-				fabIgual = f;
+	private Cliente clienteMesmoCpf(Cliente cliente) {
+		Cliente cliIgual = new Cliente();
+		for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext() && cliIgual.getId() == 0; ) {    
+			Cliente cli = (Cliente) iterator.next();    
+			if (cli.getCpf().equals(cliente.getCpf()))
+				cliIgual = cli;
 		}
-		return fabIgual;
+		return cliIgual;
 	}	
 	
 // métodos para acesso ao BD	
@@ -55,8 +55,8 @@ public class ClienteMB {
 	}
 	
 	public void inserirCliente() {
-		Cliente clienteMesmoNome = clienteMesmoNome(clienteEmEdicao);
-		if (clienteMesmoNome.getId() != clienteEmEdicao.getId()) {
+		Cliente clienteMesmoCPF = clienteMesmoCpf(clienteEmEdicao);
+		if (clienteMesmoCPF.getId() != clienteEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.addCallbackParam("jaExisteNome", true);
 		}
