@@ -17,29 +17,8 @@ public class BaseDAO {
 	
 	private static EntityManager manager;
     
-
     public static EntityManager getConnection() {
-    	InitialContext context = null;
-		try {
-			context = new InitialContext();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	DataSource ds = null;
-		try {
-			ds = (DataSource)context.lookup("java:comp/env/jdbc/blog");
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-    	EntityManagerFactory emf = null;
-		try {
-			emf = (EntityManagerFactory) ds.getConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("C3PO");
         manager = null;
         manager = emf.createEntityManager();
         if (!manager.isOpen()) {

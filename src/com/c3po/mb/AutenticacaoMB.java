@@ -18,7 +18,7 @@ import com.c3po.entidade.Funcionario;
 public class AutenticacaoMB {
 
 	private String cpf;
-	private Boolean acessoCadastros;
+	private Boolean acessoCadastros = false;
 	
 	public String autenticaCliente() throws NoSuchAlgorithmException{
 		//Retorna o contexto da aplicação
@@ -28,9 +28,9 @@ public class AutenticacaoMB {
 		Cliente cliente = dao.buscaPorCpf(cpf);
 			
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		session.setAttribute("cpfUsuario", cliente.getCpf());
+		session.setAttribute("cpfUsuario", cpf);
 		this.acessoCadastros = false;
-		if(cliente.getId() != 0){
+		if(cliente != null && cliente.getId() != 0){
 			session.setAttribute("idCliente", cliente.getId());
 			return "/pages/pedido.jsf";
 		}
@@ -59,7 +59,7 @@ public class AutenticacaoMB {
 		else {
 			FacesContext fcontext = FacesContext.getCurrentInstance();
 			fcontext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"E-mail ou senha inválidos!", ""));
+					"Funcionário não cadastrado!", ""));
 			return "";
 		}	
 	}	
@@ -75,7 +75,7 @@ public class AutenticacaoMB {
 	}
 
 	public String getCpf() {
-		return cpf;
+		return this.cpf;
 	}
 
 	public void setCpf(String cpf) {
@@ -83,7 +83,7 @@ public class AutenticacaoMB {
 	}
 
 	public Boolean getAcessoCadastros() {
-		return acessoCadastros;
+		return this.acessoCadastros;
 	}
 
 }
