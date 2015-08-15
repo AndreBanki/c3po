@@ -47,9 +47,9 @@ public class AutenticacaoMB {
 		Funcionario usuario = dao.buscaPorCpf(cpf);
 			
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		session.setAttribute("cpfUsuario", usuario.getCpf());
+		session.setAttribute("cpfUsuario", cpf);
 
-		if(usuario.getId() != 0){
+		if(usuario != null && usuario.getId() != 0){
 			session.setAttribute("idFuncionario", usuario.getId());
 			
 			this.acessoCadastros = true;
