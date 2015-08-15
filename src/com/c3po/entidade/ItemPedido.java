@@ -6,6 +6,11 @@ public class ItemPedido {
 	private Produto item;
 	private int quantidade;
 	
+	public float getTotal() {
+		float total = quantidade * item.getValor();
+		return total;
+	}
+	
 	public int getId() {
 		return id;
 	}
