@@ -31,15 +31,17 @@ public class PedidoDAO extends BaseDAO{
 		return lista;
 	}
 		
-	public void inserir(Pedido pedido) {
+	public Pedido inserir(Pedido pedido) {
 		EntityManager manager = getConnection();
 		try {
                         manager.getTransaction().begin();
-			manager.merge(pedido);
+			pedido = manager.merge(pedido);
                         manager.getTransaction().commit();
+                        return pedido;
 		} catch (Exception e) {
                         manager.getTransaction().rollback();
 			e.printStackTrace();
+                        return null;
 		}finally{
 			fechar();
 		}
@@ -69,7 +71,7 @@ public class PedidoDAO extends BaseDAO{
 		try {
                         manager.getTransaction().begin();
 			item = manager.find(ItemPedido.class, item.getId());
-			manager.merge(item);
+			manager.remove(item);
                         manager.getTransaction().commit();
 		} catch (Exception e) {
                         manager.getTransaction().rollback();

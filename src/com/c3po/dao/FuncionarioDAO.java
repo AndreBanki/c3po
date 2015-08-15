@@ -79,7 +79,7 @@ public class FuncionarioDAO extends BaseDAO {
 		try { 
                         manager.getTransaction().begin();
 			funcionario = manager.find(Funcionario.class, funcionario.getId());
-			manager.merge(funcionario);
+			manager.remove(funcionario);
                         manager.getTransaction().commit();
 		} catch (Exception e) {
                         manager.getTransaction().rollback();

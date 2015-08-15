@@ -83,7 +83,7 @@ public class ClienteDAO extends BaseDAO{
 		try {
                         manager.getTransaction().begin();
 			cliente = manager.find(Cliente.class, cliente.getId());
-			manager.merge(cliente);
+			manager.remove(cliente);
                         manager.getTransaction().commit();
 		} catch (Exception e) {
                         manager.getTransaction().rollback();
