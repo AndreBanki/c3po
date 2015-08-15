@@ -8,5 +8,6 @@
 	 type="javax.sql.DataSource"
 	 url="jdbc:mysql://localhost:3306/c3po"
 	 username="root"
-	 password="" />
+	 password=""
+	 factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" />
 </Context>
