@@ -1,5 +1,6 @@
 package com.c3po.entidade;
 
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,6 +36,12 @@ public class ItemPedido implements Serializable {
     @JoinColumn(name = "produto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Produto produto;
+    
+    public float getTotal() {
+		float total = quantidade.floatValue() * produto.getValor();
+		return total;
+	}
+    
 
     public ItemPedido() {
     }
@@ -99,5 +106,6 @@ public class ItemPedido implements Serializable {
     public String toString() {
         return "teste.Itempedido[ id=" + id + " ]";
     }
+    
     
 }
