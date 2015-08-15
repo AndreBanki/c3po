@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
 	<h:outputStylesheet library="css" name="style.css" />
@@ -15,7 +14,7 @@
 			<h1>C3PO</h1>
 
 			<h:form styleClass="form">
-				<h:inputText a:placeholder="Entre com seu CPF" id="cpf"
+				<h:inputText id="cpf"
 					value="#{autenticacaoMB.cpf}" required="true"
 					requiredMessage="Campo obrigatório!" />
 				<h:message for="cpf" />
@@ -39,7 +38,6 @@
 		</ul>
 	</div>
 	<h:outputScript library="js" name="jquery.js" />
-	<h:outputScript library="js" src="index.js" />
+	<h:outputScript library="js" name="index.js" />
 </h:body>
-</html>
 </html>
