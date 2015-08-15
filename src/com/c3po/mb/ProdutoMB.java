@@ -26,7 +26,7 @@ public class ProdutoMB {
 		atualizaListaProdutosParaExibicao();
 	}
 	
-// métodos auxiliares
+// mï¿½todos auxiliares
 	
 	public void atualizaListaProdutosParaExibicao() {
 		produtos = dao.listarTodos();
@@ -39,7 +39,7 @@ public class ProdutoMB {
 	
 	private Produto produtoMesmoNome(Produto produto) {
 		Produto prodIgual = new Produto();
-		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext() && prodIgual.getId() == 0; ) {    
+		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext() && prodIgual.getId() == null; ) {    
 			Produto prod = (Produto) iterator.next();    
 			if (prod.getDescricao().equals(produto.getDescricao()))
 				prodIgual = prod;
@@ -47,7 +47,7 @@ public class ProdutoMB {
 		return prodIgual;
 	}	
 	
-// métodos para acesso ao BD	
+// mï¿½todos para acesso ao BD	
 	
 	public void apagarProduto() {
 		dao.apagar(produtoEmEdicao);
@@ -62,6 +62,7 @@ public class ProdutoMB {
 		}
 		else {
 			dao.salvar(produtoEmEdicao);
+                        atualizaListaProdutosParaExibicao();
 		}
 	}
 	

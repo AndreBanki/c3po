@@ -26,7 +26,7 @@ public class FuncionarioMB {
 		atualizaListaFuncionariosParaExibicao();
 	}
 	
-// métodos auxiliares
+// mï¿½todos auxiliares
 	
 	public void atualizaListaFuncionariosParaExibicao() {
 		funcionarios = dao.listarTodos();
@@ -39,7 +39,7 @@ public class FuncionarioMB {
 	
 	private Funcionario funcionarioMesmoCpf(Funcionario funcionario) {
 		Funcionario funcIgual = new Funcionario();
-		for (Iterator<Funcionario> iterator = funcionarios.iterator(); iterator.hasNext() && funcIgual.getId() == 0; ) {    
+		for (Iterator<Funcionario> iterator = funcionarios.iterator(); iterator.hasNext() && funcIgual.getId() == null; ) {    
 			Funcionario func = (Funcionario) iterator.next();    
 			if (func.getCpf().equals(funcionario.getCpf()))
 				funcIgual = func;
@@ -47,7 +47,7 @@ public class FuncionarioMB {
 		return funcIgual;
 	}	
 	
-// métodos para acesso ao BD	
+// mï¿½todos para acesso ao BD	
 	
 	public void apagarFuncionario() {
 		dao.apagar(funcionarioEmEdicao);
