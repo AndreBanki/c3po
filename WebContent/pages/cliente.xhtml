@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="formMain"> 
+  		<center>
+		<p:dataTable var="v" value="#{clienteMB.clientes}" id="dataWidget" widgetVar="carsTable">
+			<p:column sortBy="#{v.nome}">
+				<f:facet name="header">Nome</f:facet>
+				<p:commandLink value="#{v.nome}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.cpf}">
+				<f:facet name="header">CPF</f:facet>
+				<p:commandLink value="#{v.cpf}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.endereco}">
+				<f:facet name="header">Endereço</f:facet>
+				<p:commandLink value="#{v.endereco}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.telefone}">
+				<f:facet name="header">Telefone</f:facet>
+				<p:commandLink value="#{v.telefone}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column width="50">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form"
+				                 onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" 
+			                 process="@form" type="button"
+			                 onclick="PF('editaDlg').show();" />
+		</div>
+	</h:form>
+		
+	<p:dialog widgetVar="confirmaDlg" header="Cliente" modal="true" resizable="false">
+		<h:form id="formConfirma">
+			<h:outputText value="Deseja apagar este cliente?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{clienteMB.apagarCliente}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</h:form>
+    </p:dialog>
+    
+	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Cliente" modal="true" resizable="false">
+		<h:form id="formEdita">
+			<p:panelGrid columns="2">
+				<h:outputText value="Nome*: " /> 
+				<p:inputText id="nome" value="#{clienteMB.clienteEmEdicao.nome}" required="true" />
+				<h:outputText value="CPF*: " /> 
+				<p:inputText id="cpf" value="#{clienteMB.clienteEmEdicao.cpf}" required="true" />
+				<h:outputText value="Endereço: " /> 
+				<p:inputText id="endereco" value="#{clienteMB.clienteEmEdicao.endereco}" />
+				<h:outputText value="Telefone: " /> 
+				<p:inputText id="telefone" value="#{clienteMB.clienteEmEdicao.telefone}" />
+			</p:panelGrid>
+			<p:message for="nome" />
+			<br/>
+			<center>
+				<p:commandButton value="Salvar" 
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
+				                 action="#{clienteMB.inserirCliente}" 
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+			</center>
+		</h:form>
+	</p:dialog>
+
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteCpf) 
+               		alert('Já existe um cliente com este CPF.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
+			
+</ui:define>
+</ui:composition>

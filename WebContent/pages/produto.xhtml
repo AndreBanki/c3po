@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="formMain"> 
+  		<center>
+		<p:dataTable var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable">
+			<p:column sortBy="#{v.nome}">
+				<f:facet name="header">Nome</f:facet>
+				<p:commandLink value="#{v.nome}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.valor}">
+				<f:facet name="header">Valor</f:facet>
+				<p:commandLink value="#{v.valor}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column width="50">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form"
+				                 onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" 
+			                 process="@form" type="button"
+			                 onclick="PF('editaDlg').show();" />
+		</div>
+	</h:form>
+		
+	<p:dialog widgetVar="confirmaDlg" header="Produto" modal="true" resizable="false">
+		<h:form id="formConfirma">
+			<h:outputText value="Deseja apagar este produto?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{produtoMB.apagarProduto}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</h:form>
+    </p:dialog>
+    
+	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Produto" modal="true" resizable="false">
+		<h:form id="formEdita">
+			<p:panelGrid columns="2">
+				<h:outputText value="Nome*: " /> 
+				<p:inputText id="nome" value="#{produtoMB.produtoEmEdicao.nome}" required="true" />
+				<h:outputText value="Valor*: " /> 
+				<p:inputText id="cpf" value="#{produtoMB.produtoEmEdicao.valor}" required="true" />
+			</p:panelGrid>
+			<p:message for="nome" />
+			<br/>
+			<center>
+				<p:commandButton value="Salvar" 
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
+				                 action="#{produtoMB.inserirProduto}" 
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+			</center>
+		</h:form>
+	</p:dialog>
+
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteNome) 
+               		alert('Já existe um produto com este nome.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
+			
+</ui:define>
+</ui:composition>

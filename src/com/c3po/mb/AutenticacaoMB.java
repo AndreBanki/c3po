@@ -1,0 +1,66 @@
+package com.c3po.mb;
+
+import java.security.NoSuchAlgorithmException;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import com.c3po.dao.ClienteDAO;
+import com.c3po.entidade.Cliente;
+
+@ManagedBean
+@SessionScoped
+public class AutenticacaoMB {
+
+	private String cpf;
+	private Boolean acessoCadastros;
+	
+	public String autentica() throws NoSuchAlgorithmException{
+		//Retorna o contexto da aplicação
+		FacesContext context = FacesContext.getCurrentInstance();
+	
+		ClienteDAO dao = new ClienteDAO();
+		Cliente cliente = dao.buscaPorCpf(cpf);
+			
+		if(cliente.getId() != 0){
+			HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+			session.setAttribute("idCliente", cliente.getId());
+			session.setAttribute("cpfUsuario", cliente.getCpf());
+			
+			this.acessoCadastros = true; // todo
+			
+			return "/pages/pedido.jsf";
+		}
+		else {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+					"E-mail ou senha inválidos!", ""));
+			return "";
+		}	
+	}
+	
+	public String logout(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		session.invalidate();
+
+		//Retorna para página de index através da navegação
+		//configurada no faces-config.xml
+		return "logout";
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public Boolean getAcessoCadastros() {
+		return acessoCadastros;
+	}
+
+}
