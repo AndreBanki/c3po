@@ -66,9 +66,13 @@
 				<h:outputText value="Nome*: " /> 
 				<p:inputText id="nome" value="#{funcionarioMB.funcionarioEmEdicao.nome}" required="true" />
 				<h:outputText value="CPF*: " /> 
-                                <p:inputMask id="cpf" value="#{funcionarioMB.funcionarioEmEdicao.cpf}" required="true" mask="99999999999" />
+                <p:inputMask id="cpf" required="true" 
+                             value="#{funcionarioMB.funcionarioEmEdicao.cpf}" 
+                             mask="99999999999" >
+                	<f:validator validatorId="validator.CpfValidator" />
+                </p:inputMask>             
 			</p:panelGrid>
-			<p:message for="nome" />
+			<p:messages />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 

@@ -14,9 +14,11 @@
 			<h1>C3PO</h1>
 
 			<h:form styleClass="form">
-				<h:inputText id="cpf"
-					value="#{autenticacaoMB.cpf}" required="true"
-					requiredMessage="Campo obrigatório!" />
+				<h:inputText id="cpf" required="true"
+					         value="#{autenticacaoMB.cpf}" 
+					         requiredMessage="Campo obrigatório!" >
+					<f:validator validatorId="validator.CpfValidator" />
+				</h:inputText>	
 				<h:message for="cpf" />
 				<h:commandButton action="#{autenticacaoMB.autenticaCliente}"
 					value="Entrar" />

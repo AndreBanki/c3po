@@ -14,5 +14,9 @@
     		<redirect />
     	</navigation-case>
     </navigation-rule>
-
+    
+	<validator>
+	     <validator-id>validator.CpfValidator</validator-id>
+	     <validator-class>com.c3po.validator.CpfValidator</validator-class>
+	</validator>
 </faces-config>
