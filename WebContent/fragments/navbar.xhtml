@@ -2,28 +2,23 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:form>
-	<div class="navbar navbar-inverse">
-	  <div class="navbar-inner">
-	    <div class="container" style="width:auto">
-	      <a class="brand" href="#">[Pós SENAI] Restaurante C3PO</a>
-	      <div class="nav-collapse">
-	        <ul class="nav">
-	          <li><h:commandLink action="/index.jsf" value="Home"/> </li>
-	          <li><h:commandLink action="/pages/cliente.jsf" value="Clientes" 
-	          					 rendered="#{autenticacaoMB.acessoCadastros}" /></li>
-	          <li><h:commandLink action="/pages/funcionario.jsf" value="Funcionários"
-	                             rendered="#{autenticacaoMB.acessoCadastros}" /></li>
-	          <li><h:commandLink action="/pages/produto.jsf" value="Produtos" 
-	                             rendered="#{autenticacaoMB.acessoCadastros}"/></li>
-	          <li><h:commandLink action="/pages/pedido.jsf" value="Fazer pedido"
-	                             rendered="#{autenticacaoMB.selfService}" /></li>
-	          <li><h:commandLink action="#{autenticacaoMB.logout()}" value="Sair" /></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+
+	<p:menubar style="margin-top:20px">
+		<p:menuitem action="/pages/pedido.jsf" value="Fazer pedido" icon="ui-icon-document" 
+		            rendered="#{autenticacaoMB.selfService}"/>
+		<p:submenu label="Cadastros" rendered="#{autenticacaoMB.acessoCadastros}">
+			<p:menuitem action="/pages/cliente.jsf" value="Clientes" />
+			<p:menuitem action="/pages/funcionario.jsf" value="Funcionários" />
+			<p:menuitem action="/pages/produto.jsf" value="Produtos" />
+			<p:menuitem action="/pages/pedidos.jsf" value="Pedidos" />
+        </p:submenu>    
+        <f:facet name="options">
+            <p:commandButton action="#{autenticacaoMB.logout()}" value="Sair" icon="ui-icon-extlink" />
+        </f:facet>        
+	</p:menubar>
+
 	</h:form>
 </ui:composition>

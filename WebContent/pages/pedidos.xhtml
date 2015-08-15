@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="formMain"> 
+  		<center>
+		<p:dataTable var="v" value="#{pedidosMB.pedidos}" id="dataWidget" widgetVar="carsTable">
+			<p:column sortBy="#{v.data}">
+				<f:facet name="header">Data</f:facet>
+				<h:outputText value="#{v.data}" />
+				</p:column>			
+			<p:column sortBy="#{v.cliente.nome}">
+				<f:facet name="header">Cliente</f:facet>
+				<h:outputText value="#{v.cliente.nome}" />
+				</p:column>			
+			<p:column sortBy="#{v.funcionario.nome}">
+				<f:facet name="header">Funcionário</f:facet>
+				<h:outputText value="#{v.funcionario.nome}" />
+				</p:column>			
+			<p:column width="50">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form"
+				                 onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidosMB.pedidoEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+	</h:form>
+	
+	<p:dialog widgetVar="confirmaDlg" header="Pedido" modal="true" resizable="false">
+		<h:form id="formConfirma">
+			<h:outputText value="Deseja apagar este pedido?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{pedidosMB.apagarPedido}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</h:form>
+    </p:dialog>	
+</ui:define>
+</ui:composition>	
