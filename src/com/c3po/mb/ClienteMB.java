@@ -26,7 +26,7 @@ public class ClienteMB {
 		atualizaListaClientesParaExibicao();
 	}
 	
-// métodos auxiliares
+// mï¿½todos auxiliares
 	
 	public void atualizaListaClientesParaExibicao() {
 		clientes = dao.listarTodos();
@@ -39,7 +39,7 @@ public class ClienteMB {
 	
 	private Cliente clienteMesmoCpf(Cliente cliente) {
 		Cliente cliIgual = new Cliente();
-		for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext() && cliIgual.getId() == 0; ) {    
+		for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext() && cliIgual.getId() == null; ) {    
 			Cliente cli = (Cliente) iterator.next();    
 			if (cli.getCpf().equals(cliente.getCpf()))
 				cliIgual = cli;
@@ -47,7 +47,7 @@ public class ClienteMB {
 		return cliIgual;
 	}	
 	
-// métodos para acesso ao BD	
+// mï¿½todos para acesso ao BD	
 	
 	public void apagarCliente() {
 		dao.apagar(clienteEmEdicao);
@@ -62,6 +62,7 @@ public class ClienteMB {
 		}
 		else {
 			dao.salvar(clienteEmEdicao);
+                        atualizaListaClientesParaExibicao();
 		}
 	}
 	

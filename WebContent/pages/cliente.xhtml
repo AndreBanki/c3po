@@ -51,6 +51,7 @@
 		</p:dataTable>
 		</center>
 		<div align="left">
+                    <br/>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
 			                 onclick="PF('editaDlg').show();" />
@@ -81,11 +82,11 @@
 				<h:outputText value="Nome*: " /> 
 				<p:inputText id="nome" value="#{clienteMB.clienteEmEdicao.nome}" required="true" />
 				<h:outputText value="CPF*: " /> 
-				<p:inputText id="cpf" value="#{clienteMB.clienteEmEdicao.cpf}" required="true" />
+                                <p:inputMask id="cpf" value="#{clienteMB.clienteEmEdicao.cpf}" required="true" mask="99999999999"/>
 				<h:outputText value="Endereço: " /> 
 				<p:inputText id="endereco" value="#{clienteMB.clienteEmEdicao.endereco}" />
 				<h:outputText value="Telefone: " /> 
-				<p:inputText id="telefone" value="#{clienteMB.clienteEmEdicao.telefone}" />
+                                <p:inputMask id="telefone" value="#{clienteMB.clienteEmEdicao.telefone}" mask="(99)9999-9999"/>
 			</p:panelGrid>
 			<p:message for="nome" />
 			<br/>
