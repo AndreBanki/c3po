@@ -15,11 +15,11 @@
 			<h1>C3PO</h1>
 
 			<h:form styleClass="form">
-				<h:inputText a:placeholder="fill me" id="cpf"
+				<h:inputText a:placeholder="Entre com seu CPF" id="cpf"
 					value="#{autenticacaoMB.cpf}" required="true"
 					requiredMessage="Campo obrigatório!" />
 				<h:message for="cpf" />
-				<h:commandButton action="#{autenticacaoMB.autentica()}"
+				<h:commandButton action="#{autenticacaoMB.autentica}"
 					value="Entrar" />
 			</h:form>
 		
