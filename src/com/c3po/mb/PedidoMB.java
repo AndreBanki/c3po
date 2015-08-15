@@ -33,31 +33,44 @@ public class PedidoMB {
 	private List<ItemPedido> itens;
 	
 	private List<Produto> produtos;
+        
+        private float valorTotal;
 	
 	public PedidoMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		String cpf = (String)session.getAttribute("cpfUsuario");
-		
+		dao = new PedidoDAO();
 		ClienteDAO clienteDao = new ClienteDAO();
 		this.cliente = clienteDao.buscaPorCpf(cpf);
-
-		pedido = new Pedido();
-		pedido.setCliente(this.cliente);
+                
+                dao = new PedidoDAO();
+		if(cliente!=null){
+                    pedido = dao.pedidoAberto(cliente);
+                }
+                if (pedido==null){
+                    pedido = new Pedido();
+                    pedido.setCliente(this.cliente);
+                }
+		
 		
 		atualizaListaItensParaExibicao();
 		
-		// lista de todos os produtos (não muda durante a edição da página)
+		// lista de todos os produtos (nï¿½o muda durante a ediï¿½ï¿½o da pï¿½gina)
 		ProdutoDAO produtoDao = new ProdutoDAO();
 		produtos = produtoDao.listarTodos();
+                
 	}
 	
-// métodos auxiliares
+// mï¿½todos auxiliares
 	
-	public void atualizaListaItensParaExibicao() {
-		itens = pedido.getItempedidoList();
-		itemEmEdicao = new ItemPedido();
-	}
+	   public void atualizaListaItensParaExibicao() {
+        if (pedido.getId() != null) {
+            itens = dao.listarTodosItens(pedido);
+            valorTotal = pedido.valorTotal(itens);
+            itemEmEdicao = new ItemPedido();
+        }
+    }
 	
 	public List<String> listaNomesProdutos() {
 		List<String> nomes = new ArrayList<String>();
@@ -68,7 +81,7 @@ public class PedidoMB {
 		return nomes;
 	}
 	
-// métodos para acesso ao BD	
+// mï¿½todos para acesso ao BD	
 	
 	public void apagarItem() {
 		itemEmEdicao.setPedido(pedido);
@@ -84,7 +97,7 @@ public class PedidoMB {
 			pedido.setFuncionario(funcionarioDefault);
 			
 			pedido.setData(new Date());
-			
+			pedido.setSituacao(0);
 			pedido = dao.inserir(pedido);
 		}
 		itemEmEdicao.setPedido(pedido);
@@ -92,6 +105,21 @@ public class PedidoMB {
 		
 		atualizaListaItensParaExibicao();
 	}
+        
+        public String finalizar(){
+            valorTotal= pedido.valorTotal(itens);
+            pedido.setSituacao(1);
+            pedido = dao.inserir(pedido);
+            return "finalizado";
+        }
+        
+        public String cancelar(){
+            for(int i=0;i<itens.size();i++){
+                dao.retirarItem(itens.get(i));
+            }
+            dao.apagar(pedido);
+            return "index";
+        }
 	
 // getters e setters	
 	
@@ -134,5 +162,13 @@ public class PedidoMB {
 	public void setPedidoEmEdicao(ItemPedido item) {
 		this.itemEmEdicao = item;
 	}
+
+    public float getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(float valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
 }

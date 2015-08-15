@@ -22,27 +22,21 @@
 				</p:column>			
 			<p:column sortBy="#{v.quantidade}">
 				<f:facet name="header">Quant.</f:facet>
-				<p:commandLink value="#{v.quantidade}" 
-				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
-					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
-				</p:commandLink>
-				</p:column>			
+                                <p:outputLabel value="#{v.quantidade}" style="text-align: right;">
+                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:outputLabel>
+			</p:column>			
 			<p:column sortBy="#{v.getProduto().valor}">
 				<f:facet name="header">Valor</f:facet>
-				<p:commandLink value="#{v.getProduto().valor}" 
-				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
-					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
-				</p:commandLink>
-				</p:column>			
+                                <p:outputLabel value="#{v.produto.valor}" style="text-align: right;">
+                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:outputLabel>
+			</p:column>			
 			<p:column sortBy="#{v.total}">
 				<f:facet name="header">Total</f:facet>
-				<p:commandLink value="#{v.total}" 
-				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
-					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
-				</p:commandLink>
+                                <p:outputLabel value="#{v.total}" style="text-align: right;">
+                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:outputLabel>
 				</p:column>			
 			<p:column width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
@@ -54,10 +48,20 @@
 		</p:dataTable>
 		</center>
 		<div align="left">
+                    <br/>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
+            <center>
+            <div align="left">
+                <br/>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="finalizarBtn" value="Finalizar" action="#{pedidoMB.finalizar()}" onclick="PF('finalizarDlg').show();" />
+                    <p:commandButton id="cancelarBtn" value="Cancelar"  action="#{pedidoMB.cancelar()}" />
+                </h:panelGrid>
+            </div>
+            </center>
 	</h:form>
 	
 	<p:dialog widgetVar="confirmaDlg" header="Item" modal="true" resizable="false">
@@ -87,9 +91,9 @@
 	   				<f:attribute name="listaProduto" value="#{pedidoMB.produtos}" />
      			</p:selectOneMenu>
 				<h:outputText value="Quantidade: " /> 
-				<p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true">
-					<f:convertNumber integerOnly="true" />
-				</p:inputText>	
+                                <p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true" style="text-align: right;">
+                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                                </p:inputText>
 			</p:panelGrid>
 			<p:message for="quant" />
 			<br/>
@@ -97,7 +101,28 @@
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{pedidoMB.inserirItem}" 
-				                 oncomplete="PF('editaDlg').hide();" ajax="false" />
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+			</center>
+		</h:form>
+	</p:dialog>
+        
+        <p:dialog id="finalizarWidget" widgetVar="finalizarDlg" header="Finalizar" modal="true" resizable="false">
+		<h:form id="formFinalizar">
+			<h:panelGrid columns="2">
+                            <p:outputLabel value="Pedido Nº :" />
+                            <p:outputLabel value="#{pedidoMB.pedido.id}"/>
+                            <p:outputLabel value="Valor R$ :" />
+                            <p:outputLabel value="#{pedidoMB.valorTotal}" >
+                                <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                            </p:outputLabel>
+                            <p:outputLabel value="Local de Entrega :" />
+                            <p:outputLabel value="#{pedidoMB.pedido.cliente.endereco}"/>
+                        </h:panelGrid>
+			<br/>
+			<center>
+				<p:commandButton value="Fechar" 
+				                 action="/index.jsf" 
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
 			</center>
 		</h:form>
 	</p:dialog>
@@ -115,3 +140,4 @@
 	
 </ui:define>
 </ui:composition>
+
