@@ -7,7 +7,109 @@
 
 <ui:define name="conteudo">
 
-	<h1>Bem-vindo, #{pedidoMB.cliente.nome}</h1>
+	<h4>Bem-vindo, #{pedidoMB.getCliente().nome}</h4>
+	
+	<h:form id="formMain"> 
+  		<center>
+		<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable">
+			<p:column sortBy="#{v.getProduto().descricao}">
+				<f:facet name="header">Item</f:facet>
+				<p:commandLink value="#{v.getProduto().descricao}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.quantidade}">
+				<f:facet name="header">Quant.</f:facet>
+				<p:commandLink value="#{v.quantidade}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.getProduto().valor}">
+				<f:facet name="header">Valor</f:facet>
+				<p:commandLink value="#{v.getProduto().valor}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column sortBy="#{v.total}">
+				<f:facet name="header">Total</f:facet>
+				<p:commandLink value="#{v.total}" 
+				               update=":editaWidget" process="@form" 
+				               oncomplete="PF('editaDlg').show()">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
+				</p:commandLink>
+				</p:column>			
+			<p:column width="50">
+				<p:commandButton icon="ui-icon-circle-minus" 
+				                 process="@form"
+				                 onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		</center>
+		<div align="left">
+			<p:commandButton id="adicionarBtn" value="Adicionar" 
+			                 process="@form" type="button"
+			                 onclick="PF('editaDlg').show();" />
+		</div>
+	</h:form>
+	
+	<p:dialog widgetVar="confirmaDlg" header="Item" modal="true" resizable="false">
+		<h:form id="formConfirma">
+			<h:outputText value="Deseja apagar este item?" />
+			<br /><br />
+			<center>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 action="#{pedidoMB.apagarItem}" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+				<p:commandButton value="Não" 
+				                 update=":formMain:dataWidget" process="@form" 
+				                 oncomplete="PF('confirmaDlg').hide();" />
+			</h:panelGrid>
+			</center>	
+    	</h:form>
+    </p:dialog>	
 
+	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Item" modal="true" resizable="false">
+		<h:form id="formEdita">
+			<p:panelGrid columns="2">
+				<h:outputText value="Item: " /> 
+				<p:selectOneMenu value="#{pedidoMB.itemEmEdicao.produto}" converter="produtoConverter">
+	  				<f:selectItems value="#{pedidoMB.produtos}" var="f" itemLabel="#{f.descricao}" itemValue="#{f}" />
+	   				<f:attribute name="listaProdutos" value="#{pedidoMB.produtos}" />
+     			</p:selectOneMenu>
+				<h:outputText value="Quantidade: " /> 
+				<p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true" />
+			</p:panelGrid>
+			<p:message for="quant" />
+			<br/>
+			<center>
+				<p:commandButton value="Salvar" 
+				                 update=":formMain:dataWidget, formEdita" process="@form" 
+				                 action="#{pedidoMB.inserirItem}" 
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+			</center>
+		</h:form>
+	</p:dialog>
+
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) { 
+   				if (args.jaExisteNome) 
+               		alert('Já existe um produto com este nome.');	 
+				else
+					PF('editaDlg').hide();             
+           }
+   		}  
+	</h:outputScript>
+	
 </ui:define>
 </ui:composition>

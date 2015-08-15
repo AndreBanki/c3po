@@ -19,6 +19,7 @@ public class AutenticacaoMB {
 
 	private String cpf;
 	private Boolean acessoCadastros = false;
+	private Boolean selfService = false;
 	
 	public String autenticaCliente() throws NoSuchAlgorithmException{
 		//Retorna o contexto da aplicação
@@ -29,7 +30,10 @@ public class AutenticacaoMB {
 			
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		session.setAttribute("cpfUsuario", cpf);
+		
 		this.acessoCadastros = false;
+		this.selfService = true;
+		
 		if(cliente != null && cliente.getId() != 0){
 			session.setAttribute("idCliente", cliente.getId());
 			return "/pages/pedido.jsf";
@@ -53,6 +57,7 @@ public class AutenticacaoMB {
 			session.setAttribute("idFuncionario", usuario.getId());
 			
 			this.acessoCadastros = true;
+			this.selfService = false;
 			
 			return "/pages/pedido.jsf";
 		}
@@ -84,6 +89,10 @@ public class AutenticacaoMB {
 
 	public Boolean getAcessoCadastros() {
 		return this.acessoCadastros;
+	}
+
+	public Boolean getSelfService() {
+		return this.selfService;
 	}
 
 }

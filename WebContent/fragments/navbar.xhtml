@@ -17,7 +17,8 @@
 	                             rendered="#{autenticacaoMB.acessoCadastros}" /></li>
 	          <li><h:commandLink action="/pages/produto.jsf" value="Produtos" 
 	                             rendered="#{autenticacaoMB.acessoCadastros}"/></li>
-	          <li><h:commandLink action="/pages/pedido.jsf" value="Fazer pedido" /></li>
+	          <li><h:commandLink action="/pages/pedido.jsf" value="Fazer pedido"
+	                             rendered="#{autenticacaoMB.selfService}" /></li>
 	          <li><h:commandLink action="#{autenticacaoMB.logout()}" value="Sair" /></li>
 	        </ul>
 	      </div>

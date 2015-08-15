@@ -7,9 +7,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
+import com.c3po.dao.ClienteDAO;
 import com.c3po.dao.PedidoDAO;
 import com.c3po.dao.ProdutoDAO;
 import com.c3po.entidade.Cliente;
@@ -22,6 +25,7 @@ import com.c3po.entidade.Produto;
 public class PedidoMB {
 	
 	private Pedido pedido;
+	private Cliente cliente;
 	
 	private PedidoDAO dao;
 
@@ -31,12 +35,17 @@ public class PedidoMB {
 	private List<Produto> produtos;
 	private ProdutoDAO produtoDao;
 	
-	@PostConstruct
-	public void init() {
-		pedido = new Pedido(); // TODO (vai receber de onde?)
+	public PedidoMB() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		String cpf = (String)session.getAttribute("cpfUsuario");
 		
-		dao = new PedidoDAO();
-		atualizaListaItensParaExibicao();
+		ClienteDAO clienteDao = new ClienteDAO();
+		this.cliente = clienteDao.buscaPorCpf(cpf);
+
+		pedido = new Pedido();
+		pedido.setCliente(this.cliente);
+		
 		// lista de todos os produtos (não muda durante a edição da página)
 		produtoDao = new ProdutoDAO();
 		produtos = produtoDao.listarTodos();
@@ -66,6 +75,10 @@ public class PedidoMB {
 	}
 	
 	public void inserirItem() {
+		if (itens.isEmpty()) {
+			dao.inserir(pedido);
+		}
+		itemEmEdicao.setPedido(pedido);
 		dao.inserirItem(itemEmEdicao);
 		atualizaListaItensParaExibicao();
 	}
@@ -74,6 +87,34 @@ public class PedidoMB {
 	
 	public List<ItemPedido> getItens(){		
 		return itens;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setItemEmEdicao(ItemPedido itemEmEdicao) {
+		this.itemEmEdicao = itemEmEdicao;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	public ItemPedido getItemEmEdicao() {
