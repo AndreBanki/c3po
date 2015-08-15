@@ -61,11 +61,7 @@ public class FuncionarioMB {
 			context.addCallbackParam("jaExisteNome", true);
 		}
 		else {
-			if (funcionarioEmEdicao.getId() == 0)
-				dao.inserir(funcionarioEmEdicao);
-			else 
-				dao.atualizar(funcionarioEmEdicao);
-			atualizaListaFuncionariosParaExibicao();
+			dao.salvar(funcionarioEmEdicao);
 		}
 	}
 	

@@ -61,11 +61,7 @@ public class ProdutoMB {
 			context.addCallbackParam("jaExisteNome", true);
 		}
 		else {
-			if (produtoEmEdicao.getId() == 0)
-				dao.inserir(produtoEmEdicao);
-			else 
-				dao.atualizar(produtoEmEdicao);
-			atualizaListaProdutosParaExibicao();
+			dao.salvar(produtoEmEdicao);
 		}
 	}
 	

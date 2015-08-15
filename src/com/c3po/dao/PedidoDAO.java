@@ -46,7 +46,7 @@ public class PedidoDAO extends BaseDAO{
 
 	
 			
-	public void inserirItem(Pedido pedido, ItemPedido item) {
+	public void inserirItem(ItemPedido item) {
 		EntityManager manager = getConnection();
 		try {
 			manager.merge(item);

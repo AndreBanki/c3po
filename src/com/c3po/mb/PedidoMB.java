@@ -45,7 +45,7 @@ public class PedidoMB {
 // métodos auxiliares
 	
 	public void atualizaListaItensParaExibicao() {
-		itens = dao.listarItens(pedido);
+		itens = pedido.getItempedidoList();
 		itemEmEdicao = new ItemPedido();
 	}
 	
@@ -61,15 +61,12 @@ public class PedidoMB {
 // métodos para acesso ao BD	
 	
 	public void apagarItem() {
-		dao.retirarItem(pedido, itemEmEdicao);
+		dao.retirarItem(itemEmEdicao);
 		atualizaListaItensParaExibicao();
 	}
 	
 	public void inserirItem() {
-		if (itemEmEdicao.getId() == 0) 
-			dao.inserirItem(pedido, itemEmEdicao);
-		else 
-			dao.atualizarItem(pedido, itemEmEdicao);
+		dao.inserirItem(itemEmEdicao);
 		atualizaListaItensParaExibicao();
 	}
 	

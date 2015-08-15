@@ -61,11 +61,7 @@ public class ClienteMB {
 			context.addCallbackParam("jaExisteNome", true);
 		}
 		else {
-			if (clienteEmEdicao.getId() == 0)
-				dao.inserir(clienteEmEdicao);
-			else 
-				dao.atualizar(clienteEmEdicao);
-			atualizaListaClientesParaExibicao();
+			dao.salvar(clienteEmEdicao);
 		}
 	}
 	
