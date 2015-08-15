@@ -26,7 +26,7 @@ public class CadastroMB {
 		this.cpf = cpf;
 	}
 	
-	public void cadastrarUsuario() {
+	public String cadastrarUsuario() {
 		Cliente cliente = new Cliente();
 		cliente.setCpf(this.cpf);
 		cliente.setNome(this.nome);
@@ -35,6 +35,8 @@ public class CadastroMB {
 		
 		ClienteDAO dao = new ClienteDAO();
 		dao.salvar(cliente);
+		
+		return "/pages/pedido.jsf";
 	}
 	
 	public String getNome() {

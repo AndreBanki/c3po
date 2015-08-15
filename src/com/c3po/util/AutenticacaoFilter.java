@@ -31,10 +31,10 @@ public class AutenticacaoFilter implements Filter {
 		HttpSession session = httprequest.getSession();
 		
 		//O ID é adicionado na classe AutenticaçãoMB
-		Integer idUsuario = (Integer) session.getAttribute("idCliente");
+		String cpfUsuario = (String) session.getAttribute("cpfUsuario");
 		
 		//Verifica se encontrou o ID do usuáirio na sessão
-		if(idUsuario != null && idUsuario > 0){
+		if(cpfUsuario != null && cpfUsuario != ""){
 			//Continua o fluxo normal da aplicação
 			chain.doFilter(request, response);
 		}else{
