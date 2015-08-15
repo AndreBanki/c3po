@@ -58,7 +58,7 @@ public class FuncionarioMB {
 		Funcionario funcionarioMesmoCPF = funcionarioMesmoCpf(funcionarioEmEdicao);
 		if (funcionarioMesmoCPF.getId() != funcionarioEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
-			context.addCallbackParam("jaExisteNome", true);
+			context.addCallbackParam("jaExisteCpf", true);
 		}
 		else {
 			dao.salvar(funcionarioEmEdicao);

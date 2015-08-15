@@ -58,11 +58,11 @@ public class ClienteMB {
 		Cliente clienteMesmoCPF = clienteMesmoCpf(clienteEmEdicao);
 		if (clienteMesmoCPF.getId() != clienteEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
-			context.addCallbackParam("jaExisteNome", true);
+			context.addCallbackParam("jaExisteCpf", true);
 		}
 		else {
 			dao.salvar(clienteEmEdicao);
-                        atualizaListaClientesParaExibicao();
+            atualizaListaClientesParaExibicao();
 		}
 	}
 	

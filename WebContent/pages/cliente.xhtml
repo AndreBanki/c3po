@@ -82,13 +82,17 @@
 				<h:outputText value="Nome*: " /> 
 				<p:inputText id="nome" value="#{clienteMB.clienteEmEdicao.nome}" required="true" />
 				<h:outputText value="CPF*: " /> 
-                                <p:inputMask id="cpf" value="#{clienteMB.clienteEmEdicao.cpf}" required="true" mask="99999999999"/>
+                <p:inputMask id="cpf" required="true" 
+                             value="#{clienteMB.clienteEmEdicao.cpf}" 
+                             mask="99999999999">
+                	<f:validator validatorId="validator.CpfValidator" />
+                </p:inputMask>             
 				<h:outputText value="Endereço: " /> 
 				<p:inputText id="endereco" value="#{clienteMB.clienteEmEdicao.endereco}" />
 				<h:outputText value="Telefone: " /> 
                                 <p:inputMask id="telefone" value="#{clienteMB.clienteEmEdicao.telefone}" mask="(99)9999-9999"/>
 			</p:panelGrid>
-			<p:message for="nome" />
+			<p:messages/>
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
