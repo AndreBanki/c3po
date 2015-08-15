@@ -84,10 +84,12 @@
 				<h:outputText value="Item: " /> 
 				<p:selectOneMenu value="#{pedidoMB.itemEmEdicao.produto}" converter="produtoConverter">
 	  				<f:selectItems value="#{pedidoMB.produtos}" var="f" itemLabel="#{f.descricao}" itemValue="#{f}" />
-	   				<f:attribute name="listaProdutos" value="#{pedidoMB.produtos}" />
+	   				<f:attribute name="listaProduto" value="#{pedidoMB.produtos}" />
      			</p:selectOneMenu>
 				<h:outputText value="Quantidade: " /> 
-				<p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true" />
+				<p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true">
+					<f:convertNumber integerOnly="true" />
+				</p:inputText>	
 			</p:panelGrid>
 			<p:message for="quant" />
 			<br/>
@@ -95,7 +97,7 @@
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{pedidoMB.inserirItem}" 
-				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+				                 oncomplete="PF('editaDlg').hide();" ajax="false" />
 			</center>
 		</h:form>
 	</p:dialog>

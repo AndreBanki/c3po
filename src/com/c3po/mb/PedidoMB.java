@@ -1,21 +1,21 @@
 package com.c3po.mb;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.context.RequestContext;
-
 import com.c3po.dao.ClienteDAO;
+import com.c3po.dao.FuncionarioDAO;
 import com.c3po.dao.PedidoDAO;
 import com.c3po.dao.ProdutoDAO;
 import com.c3po.entidade.Cliente;
+import com.c3po.entidade.Funcionario;
 import com.c3po.entidade.ItemPedido;
 import com.c3po.entidade.Pedido;
 import com.c3po.entidade.Produto;
@@ -33,7 +33,6 @@ public class PedidoMB {
 	private List<ItemPedido> itens;
 	
 	private List<Produto> produtos;
-	private ProdutoDAO produtoDao;
 	
 	public PedidoMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -46,8 +45,10 @@ public class PedidoMB {
 		pedido = new Pedido();
 		pedido.setCliente(this.cliente);
 		
+		atualizaListaItensParaExibicao();
+		
 		// lista de todos os produtos (não muda durante a edição da página)
-		produtoDao = new ProdutoDAO();
+		ProdutoDAO produtoDao = new ProdutoDAO();
 		produtos = produtoDao.listarTodos();
 	}
 	
@@ -70,16 +71,25 @@ public class PedidoMB {
 // métodos para acesso ao BD	
 	
 	public void apagarItem() {
+		itemEmEdicao.setPedido(pedido);
 		dao.retirarItem(itemEmEdicao);
+		
 		atualizaListaItensParaExibicao();
 	}
 	
 	public void inserirItem() {
-		if (itens.isEmpty()) {
-			dao.inserir(pedido);
+		if (itens == null) {
+			FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+			Funcionario funcionarioDefault = funcionarioDao.buscaId(1); // TODO
+			pedido.setFuncionario(funcionarioDefault);
+			
+			pedido.setData(new Date());
+			
+			pedido = dao.inserir(pedido);
 		}
 		itemEmEdicao.setPedido(pedido);
 		dao.inserirItem(itemEmEdicao);
+		
 		atualizaListaItensParaExibicao();
 	}
 	
