@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+	template="/fragments/template.xhtml">
+
+<ui:define name="conteudo">
+	<center>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputText value="CPF: " /> 
+			<h:inputText id="cpf" value="#{cadastroMB.cpf}" disabled="true" readonly="true"/>
+			<h:outputText value="Nome: " /> 
+			<h:inputText id="nome" value="#{cadastroMB.nome}" required="true" />
+			<h:outputText value="Assunto: " /> 
+			<h:inputText id="endereco" value="#{cadastroMB.endereco}" required="true" />
+			<h:outputText value="Telefone: " /> 
+			<h:inputText id="telefone" value="#{cadastroMB.telefone}" required="true" />
+		</h:panelGrid>
+		<h:messages />
+		<p:commandButton value="Criar cadastro" 
+		                 action="#{cadastroMB.cadastrarUsuario}"/>
+	</h:form>
+	</center>
+</ui:define>
+</ui:composition>

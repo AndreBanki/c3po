@@ -18,8 +18,10 @@
 					value="#{autenticacaoMB.cpf}" required="true"
 					requiredMessage="Campo obrigatório!" />
 				<h:message for="cpf" />
-				<h:commandButton action="#{autenticacaoMB.autentica}"
+				<h:commandButton action="#{autenticacaoMB.autenticaCliente}"
 					value="Entrar" />
+				<h:commandLink action="#{autenticacaoMB.autenticaFuncionario}"
+					value="Entrar como funcionário" />
 			</h:form>
 		
 		</div>

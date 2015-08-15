@@ -9,7 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.c3po.dao.ClienteDAO;
+import com.c3po.dao.FuncionarioDAO;
 import com.c3po.entidade.Cliente;
+import com.c3po.entidade.Funcionario;
 
 @ManagedBean
 @SessionScoped
@@ -18,29 +20,50 @@ public class AutenticacaoMB {
 	private String cpf;
 	private Boolean acessoCadastros;
 	
-	public String autentica() throws NoSuchAlgorithmException{
+	public String autenticaCliente() throws NoSuchAlgorithmException{
 		//Retorna o contexto da aplicação
 		FacesContext context = FacesContext.getCurrentInstance();
 	
 		ClienteDAO dao = new ClienteDAO();
 		Cliente cliente = dao.buscaPorCpf(cpf);
 			
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		session.setAttribute("cpfUsuario", cliente.getCpf());
+		this.acessoCadastros = false;
 		if(cliente.getId() != 0){
-			HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 			session.setAttribute("idCliente", cliente.getId());
-			session.setAttribute("cpfUsuario", cliente.getCpf());
+			return "/pages/pedido.jsf";
+		}
+		else {
+			return "/pages/cadastro.jsf";
+		}	
+	}	
+	
+	public String autenticaFuncionario() throws NoSuchAlgorithmException{
+		//Retorna o contexto da aplicação
+		FacesContext context = FacesContext.getCurrentInstance();
+	
+		FuncionarioDAO dao = new FuncionarioDAO();
+		Funcionario usuario = dao.buscaPorCpf(cpf);
 			
-			this.acessoCadastros = true; // todo
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		session.setAttribute("cpfUsuario", usuario.getCpf());
+
+		if(usuario.getId() != 0){
+			session.setAttribute("idFuncionario", usuario.getId());
+			
+			this.acessoCadastros = true;
 			
 			return "/pages/pedido.jsf";
 		}
 		else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesContext fcontext = FacesContext.getCurrentInstance();
+			fcontext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 					"E-mail ou senha inválidos!", ""));
 			return "";
 		}	
-	}
-	
+	}	
+
 	public String logout(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
