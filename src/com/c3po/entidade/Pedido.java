@@ -7,13 +7,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,7 +36,7 @@ public class Pedido implements Serializable {
     private Date data;
     @Column(name = "situacao")
     private Integer situacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
     private List<ItemPedido> itempedidoList;
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -124,6 +123,16 @@ public class Pedido implements Serializable {
     @Override
     public String toString() {
         return "teste.Pedido[ id=" + id + " ]";
+    }
+    
+    public Float valorTotal(List<ItemPedido> itens){
+        Float valor = 0.0f;
+        if (itens!=null){
+            for(int i=0;i<itens.size();i++){
+                valor = valor + itens.get(i).getTotal();
+            }
+        }
+        return valor;
     }
     
 }
