@@ -25,6 +25,12 @@
 				<f:facet name="header">Funcionário</f:facet>
 				<h:outputText value="#{v.funcionario.nome}" />
 				</p:column>			
+			<p:column sortBy="#{v.valorTotal}">
+				<f:facet name="header">Total</f:facet>
+				<h:outputText value="#{v.valorTotal}" >
+					<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+				</h:outputText>
+				</p:column>			
 			<p:column width="50">
 				<p:commandButton icon="ui-icon-circle-minus" 
 				                 process="@form"

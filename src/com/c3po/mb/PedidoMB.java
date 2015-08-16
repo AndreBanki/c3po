@@ -66,7 +66,7 @@ public class PedidoMB {
 	   public void atualizaListaItensParaExibicao() {
         if (pedido.getId() != null) {
             itens = dao.listarTodosItens(pedido);
-            valorTotal = pedido.valorTotal(itens);
+            valorTotal = pedido.getValorTotal();
         }
         itemEmEdicao = new ItemPedido();
     }
@@ -106,9 +106,9 @@ public class PedidoMB {
 	}
         
         public String finalizar(){
-            valorTotal= pedido.valorTotal(itens);
             pedido.setSituacao(1);
             pedido = dao.inserir(pedido);
+            valorTotal= pedido.getValorTotal();
             return "finalizado";
         }
         

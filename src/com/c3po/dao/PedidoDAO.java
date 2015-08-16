@@ -16,6 +16,21 @@ public class PedidoDAO extends BaseDAO{
 	
 // m�todos que lidam com a lista geral de Pedidos	
 
+	public List<Pedido> listarTodos() {
+		List<Pedido> lista = new ArrayList<Pedido>();
+		EntityManager manager = getConnection();
+                manager.getTransaction().begin();
+		try {
+			Query q = manager.createQuery("select p from Pedido p order by p.data");
+			lista = q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			fechar();
+		}
+		return lista;
+	}
+	
 	public List<Pedido> listarTodosCliente(Cliente cliente) {
 		List<Pedido> lista = new ArrayList<Pedido>();
 		EntityManager manager = getConnection();

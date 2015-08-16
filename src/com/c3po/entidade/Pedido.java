@@ -125,11 +125,11 @@ public class Pedido implements Serializable {
         return "teste.Pedido[ id=" + id + " ]";
     }
     
-    public Float valorTotal(List<ItemPedido> itens){
-        Float valor = 0.0f;
-        if (itens!=null){
-            for(int i=0;i<itens.size();i++){
-                valor = valor + itens.get(i).getTotal();
+    public float getValorTotal(){
+        float valor = 0.0f;
+        if (itempedidoList!=null){
+            for(int i=0;i<itempedidoList.size();i++){
+                valor = valor + itempedidoList.get(i).getTotal();
             }
         }
         return valor;
