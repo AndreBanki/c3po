@@ -2,31 +2,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
 	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
 </h:head>	
 <h:body>	
 	<div class="wrapper">
 		<div class="container">
-		
-			<h1>C3PO</h1>
-
-			<h:form styleClass="form">
-				<h:inputText id="cpf" required="true"
-							 placeholder="Entre com o CPF"
-					         value="#{autenticacaoMB.cpf}" 
-					         requiredMessage="Campo obrigatório!" >
-					<f:validator validatorId="validator.CpfValidator" />
-				</h:inputText>	
-				<h:message for="cpf" />
-				<h:commandButton action="#{autenticacaoMB.autenticaCliente}"
-					value="Entrar" />
-				<h:commandLink action="#{autenticacaoMB.autenticaFuncionario}"
-					value="Entrar como funcionário" />
-			</h:form>
-		
+    		<div class="well">
+        		<center><h1>C3PO Delivery</h1></center>
+        	</div>
+			<div class="row-fluid">
+				<h:form>
+					<p:inputMask id="cpf" required="true"
+								 placeholder="Entre com o CPF"
+						         value="#{autenticacaoMB.cpf}"
+						         mask="99999999999" 
+						         requiredMessage="Campo obrigatório!" >
+						<f:validator validatorId="validator.CpfValidator" />
+					</p:inputMask>	
+					<p:message for="cpf" />
+					<h:commandButton action="#{autenticacaoMB.autenticaCliente}"
+						value="Entrar" />
+					<h:commandLink action="#{autenticacaoMB.autenticaFuncionario}"
+						value="Entrar como funcionário" />
+				</h:form>
+			</div>
 		</div>
 
 		<ul class="bg-bubbles">
