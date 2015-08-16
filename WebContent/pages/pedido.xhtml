@@ -26,9 +26,7 @@
 				</p:column>			
 			<p:column sortBy="#{v.quantidade}">
 				<f:facet name="header">Quant.</f:facet>
-                                <p:outputLabel value="#{v.quantidade}" style="text-align: right;">
-                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
-                                </p:outputLabel>
+                                <p:outputLabel value="#{v.quantidade}" style="text-align: right;"/>
 			</p:column>			
 			<p:column sortBy="#{v.getProduto().valor}">
 				<f:facet name="header">Valor</f:facet>
@@ -95,17 +93,19 @@
 	   				<f:attribute name="listaProduto" value="#{pedidoMB.produtos}" />
      			</p:selectOneMenu>
 				<h:outputText value="Quantidade: " /> 
-                                <p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" required="true" style="text-align: right;">
-                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
-                                </p:inputText>
+                <p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" 
+                             required="true" style="text-align: right;">
+					<f:convertNumber integerOnly="true" />
+				</p:inputText>
 			</p:panelGrid>
-			<p:message for="quant" />
+			<p:messages/>
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{pedidoMB.inserirItem}" 
-				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+				                 oncomplete="PF('editaDlg').hide();" 
+				                 ajax="false" />
 			</center>
 		</h:form>
 	</p:dialog>
@@ -131,17 +131,6 @@
 		</h:form>
 	</p:dialog>
 
-    <h:outputScript target="head">
-		function handleSaveRequest(xhr, status, args) {  
-           if (!args.validationFailed) { 
-   				if (args.jaExisteNome) 
-               		alert('Já existe um produto com este nome.');	 
-				else
-					PF('editaDlg').hide();             
-           }
-   		}  
-	</h:outputScript>
-	
 </ui:define>
 </ui:composition>
 

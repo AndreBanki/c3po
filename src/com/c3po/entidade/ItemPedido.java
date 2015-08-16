@@ -27,9 +27,8 @@ public class ItemPedido implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "quantidade")
-    private Double quantidade;
+    private int quantidade;
     @JoinColumn(name = "pedido_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pedido pedido;
@@ -38,16 +37,18 @@ public class ItemPedido implements Serializable {
     private Produto produto;
     
     public float getTotal() {
-		float total = quantidade.floatValue() * produto.getValor();
+		float total = quantidade * produto.getValor();
 		return total;
 	}
     
 
     public ItemPedido() {
+    	this.quantidade = 1;
     }
 
     public ItemPedido(Integer id) {
         this.id = id;
+        this.quantidade = 1;
     }
 
     public Integer getId() {
@@ -58,11 +59,11 @@ public class ItemPedido implements Serializable {
         this.id = id;
     }
 
-    public Double getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Double quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 

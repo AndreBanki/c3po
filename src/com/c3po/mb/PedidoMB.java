@@ -44,15 +44,14 @@ public class PedidoMB {
 		ClienteDAO clienteDao = new ClienteDAO();
 		this.cliente = clienteDao.buscaPorCpf(cpf);
                 
-                dao = new PedidoDAO();
-		if(cliente!=null){
-                    pedido = dao.pedidoAberto(cliente);
-                }
-                if (pedido==null){
-                    pedido = new Pedido();
-                    pedido.setCliente(this.cliente);
-                }
-		
+        dao = new PedidoDAO();
+		if(cliente != null){
+        	pedido = dao.pedidoAberto(cliente);
+        }
+        if (pedido == null){
+        	pedido = new Pedido();
+            pedido.setCliente(this.cliente);
+        }
 		
 		atualizaListaItensParaExibicao();
 		
@@ -68,8 +67,8 @@ public class PedidoMB {
         if (pedido.getId() != null) {
             itens = dao.listarTodosItens(pedido);
             valorTotal = pedido.valorTotal(itens);
-            itemEmEdicao = new ItemPedido();
         }
+        itemEmEdicao = new ItemPedido();
     }
 	
 	public List<String> listaNomesProdutos() {
