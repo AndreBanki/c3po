@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:form>
 
-	<p:menubar style="margin-top:20px">
+	<p:menubar style="margin-top:20px" autoDisplay="false">
 		<p:menuitem action="/pages/pedido.jsf" value="Fazer pedido" icon="ui-icon-document" 
 		            rendered="#{autenticacaoMB.selfService}"/>
 		<p:submenu label="Cadastros" rendered="#{autenticacaoMB.acessoCadastros}">

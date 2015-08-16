@@ -8,7 +8,11 @@
 <ui:define name="conteudo">
 	<h:form id="formMain"> 
   		<center>
-		<p:dataTable var="v" value="#{pedidosMB.pedidos}" id="dataWidget" widgetVar="carsTable">
+		<p:dataTable var="v" value="#{pedidosMB.pedidos}" id="dataWidget" widgetVar="carsTable"
+		             paginator="true" rows="10" 
+		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
+		                                {PageLinks} {NextPageLink} {LastPageLink}">
+			<f:facet name="header">Pedidos</f:facet>
 			<p:column sortBy="#{v.data}">
 				<f:facet name="header">Data</f:facet>
 				<h:outputText value="#{v.data}" />
