@@ -10,7 +10,7 @@
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{funcionarioMB.funcionarios}" id="dataWidget" widgetVar="carsTable"
-		             paginator="true" rows="10" 
+		             paginator="true" paginatorPosition="bottom" rows="10" 
 		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                {PageLinks} {NextPageLink} {LastPageLink}">
 			<f:facet name="header">Funcionários</f:facet>
@@ -30,12 +30,12 @@
 					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.funcionarioEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" 
-				                 process="@form"
-				                 onclick="PF('confirmaDlg').show();">
-					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.funcionarioEmEdicao}" />
-				</p:commandButton>
+			<p:column style="width: 20px;">
+				<p:commandLink styleClass="ui-icon ui-icon-circle-minus"
+				               process="@form"
+				               onclick="PF('confirmaDlg').show();">
+					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.produtoEmEdicao}" />
+				</p:commandLink>
 			</p:column>
 		</p:dataTable>
 		</center>
