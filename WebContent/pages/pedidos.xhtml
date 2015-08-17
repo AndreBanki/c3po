@@ -6,6 +6,7 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
+	<div class="container-fluid">
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{pedidosMB.pedidos}" id="dataWidget" widgetVar="carsTable"
@@ -13,9 +14,11 @@
 		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                {PageLinks} {NextPageLink} {LastPageLink}">
 			<f:facet name="header">Pedidos</f:facet>
-			<p:column sortBy="#{v.data}">
+			<p:column sortBy="#{v.data}" style="width: 200px;">
 				<f:facet name="header">Data</f:facet>
-				<h:outputText value="#{v.data}" />
+				<h:outputText value="#{v.data}">
+					<f:convertDateTime locale="pt_BR" type="date" />
+				</h:outputText>	
 				</p:column>			
 			<p:column sortBy="#{v.cliente.nome}">
 				<f:facet name="header">Cliente</f:facet>
@@ -25,7 +28,7 @@
 				<f:facet name="header">Funcionário</f:facet>
 				<h:outputText value="#{v.funcionario.nome}" />
 				</p:column>			
-			<p:column sortBy="#{v.valorTotal}">
+			<p:column sortBy="#{v.valorTotal}" style="width: 200px; text-align: right;">
 				<f:facet name="header">Total</f:facet>
 				<h:outputText value="#{v.valorTotal}" >
 					<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
@@ -41,7 +44,7 @@
 		</p:dataTable>
 		</center>
 	</h:form>
-	
+	</div>
 	<p:dialog widgetVar="confirmaDlg" header="Pedido" modal="true" resizable="false">
 		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este pedido?" />

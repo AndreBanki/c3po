@@ -6,6 +6,7 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
+	<div class="container-fluid" style="max-width: 900px;">
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable  var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable"
@@ -21,7 +22,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.valor}">
+			<p:column sortBy="#{v.valor}" style="width: 200px;">
 				<f:facet name="header">Valor</f:facet>
                                 <p:outputLabel value="#{v.valor}" style="text-align: right;" >
                                         <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
@@ -43,7 +44,7 @@
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
-		
+	</div>	
 	<p:dialog widgetVar="confirmaDlg" header="Produto" modal="true" resizable="false">
 		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este produto?" />

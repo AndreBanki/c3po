@@ -32,13 +32,14 @@ public class AutenticacaoMB {
 		session.setAttribute("cpfUsuario", cpf);
 		
 		this.acessoCadastros = false;
-		this.selfService = true;
 		
 		if(cliente != null && cliente.getId() != 0){
+			this.selfService = true;
 			session.setAttribute("idCliente", cliente.getId());
 			return "/pages/pedido.jsf";
 		}
 		else {
+			this.selfService = false;
 			return "/pages/cadastro.jsf";
 		}	
 	}	

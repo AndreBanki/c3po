@@ -6,6 +6,7 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
+	<div class="container-fluid">
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{clienteMB.clientes}" id="dataWidget" widgetVar="carsTable"
@@ -21,7 +22,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.cpf}">
+			<p:column sortBy="#{v.cpf}" style="width: 200px;">
 				<f:facet name="header">CPF</f:facet>
 				<p:commandLink value="#{v.cpf}" 
 				               update=":editaWidget" process="@form" 
@@ -37,7 +38,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.telefone}">
+			<p:column sortBy="#{v.telefone}" style="width: 200px;">
 				<f:facet name="header">Telefone</f:facet>
 				<p:commandLink value="#{v.telefone}" 
 				               update=":editaWidget" process="@form" 
@@ -61,7 +62,7 @@
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
-		
+	</div>	
 	<p:dialog widgetVar="confirmaDlg" header="Cliente" modal="true" resizable="false">
 		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este cliente?" />

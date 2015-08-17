@@ -6,6 +6,7 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
+	<div class="container-fluid" style="max-width: 900px;">
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{funcionarioMB.funcionarios}" id="dataWidget" widgetVar="carsTable"
@@ -21,7 +22,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.funcionarioEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.cpf}">
+			<p:column sortBy="#{v.cpf}" style="width: 200px;">
 				<f:facet name="header">CPF</f:facet>
 				<p:commandLink value="#{v.cpf}" 
 				               update=":editaWidget" process="@form" 
@@ -45,7 +46,7 @@
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
-		
+	</div>	
 	<p:dialog widgetVar="confirmaDlg" header="Funcionário" modal="true" resizable="false">
 		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este funcionario?" />

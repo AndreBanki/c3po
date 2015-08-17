@@ -6,22 +6,25 @@
 	template="/fragments/template.xhtml">
 
 <ui:define name="conteudo">
-	<center>
+	<div class="well">
+		<h3>Bem-vindo ao C3PO Delivery!</h3>
+		<h4>Crie seu cadastro abaixo e faça seu pedido online.</h4>
+	</div>
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputText value="CPF: " /> 
-			<h:inputText id="cpf" value="#{cadastroMB.cpf}" disabled="true" readonly="true"/>
+			<p:inputText id="cpf" value="#{cadastroMB.cpf}" disabled="true" readonly="true"/>
 			<h:outputText value="Nome: " /> 
-			<h:inputText id="nome" value="#{cadastroMB.nome}" required="true" />
+			<p:inputText id="nome" value="#{cadastroMB.nome}" required="true" />
 			<h:outputText value="Endereço: " /> 
-			<h:inputText id="endereco" value="#{cadastroMB.endereco}" required="true" />
+			<p:inputText id="endereco" value="#{cadastroMB.endereco}" required="true" />
 			<h:outputText value="Telefone: " /> 
-			<h:inputText id="telefone" value="#{cadastroMB.telefone}" required="true" />
+			<p:inputText id="telefone" value="#{cadastroMB.telefone}" required="true" />
 		</h:panelGrid>
-		<h:messages />
+		<p:messages />
 		<p:commandButton value="Criar cadastro" 
 		                 action="#{cadastroMB.cadastrarUsuario}"/>
 	</h:form>
-	</center>
+	
 </ui:define>
 </ui:composition>
