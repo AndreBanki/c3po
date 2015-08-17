@@ -58,11 +58,13 @@ public class ProdutoMB {
 		Produto produtoMesmoNome = produtoMesmoNome(produtoEmEdicao);
 		if (produtoMesmoNome.getId() != produtoEmEdicao.getId()) {
 			RequestContext context = RequestContext.getCurrentInstance();
-			context.addCallbackParam("jaExisteNome", true);
+			String JScommand = "alert('Já existe um produto com este nome.');";
+			context.execute(JScommand);
+			atualizaListaProdutosParaExibicao();
 		}
 		else {
 			dao.salvar(produtoEmEdicao);
-                        atualizaListaProdutosParaExibicao();
+            atualizaListaProdutosParaExibicao();
 		}
 	}
 	

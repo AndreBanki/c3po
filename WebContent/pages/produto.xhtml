@@ -10,30 +10,48 @@
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable  var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable"
+		              editable="true"
+		              selection="#{produtoMB.produtoEmEdicao}" selectionMode="single" rowKey="#{v.id}"
 		              paginator="true" rows="10" 
 		              paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                 {PageLinks} {NextPageLink} {LastPageLink}">
+			<p:ajax event="rowEdit" listener="#{produtoMB.inserirProduto}" />
 			<f:facet name="header">Produtos</f:facet>
-                    <p:column sortBy="#{v.descricao}">
+                <p:column sortBy="#{v.descricao}">
 				<f:facet name="header">Nome</f:facet>
-                                <p:commandLink value="#{v.descricao}" 
-				               update=":editaWidget" process="@form" 
-				               oncomplete="PF('editaDlg').show()">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{v.descricao}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:inputText value="#{v.descricao}" required="true"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>			
+				<p:column sortBy="#{v.valor}" style="width: 200px;">
+				<f:facet name="header">Valor</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{v.valor}" style="text-align: right;" >
+								<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+							</h:outputText>	
+						</f:facet>
+						<f:facet name="input">
+							<h:inputText value="#{v.valor}" style="text-align: right;" required="true" >
+								<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                            </h:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>			
+			<p:column style="width: 20px;">
+				<p:rowEditor />	
+			</p:column>
+			<p:column style="width: 20px;">
+				<p:commandLink styleClass="ui-icon ui-icon-circle-minus"
+				               process="@form"
+				               onclick="PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
 				</p:commandLink>
-				</p:column>			
-			<p:column sortBy="#{v.valor}" style="width: 200px;">
-				<f:facet name="header">Valor</f:facet>
-                                <p:outputLabel value="#{v.valor}" style="text-align: right;" >
-                                        <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
-                                </p:outputLabel>
-				</p:column>			
-			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" 
-				                 process="@form"
-				                 onclick="PF('confirmaDlg').show();">
-					<f:setPropertyActionListener value="#{v}" target="#{produtoMB.produtoEmEdicao}" />
-				</p:commandButton>
 			</p:column>
 		</p:dataTable>
 		</center>
@@ -79,21 +97,10 @@
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{produtoMB.inserirProduto}" 
-				                 oncomplete="handleSaveRequest(xhr, status, args)" />
+				                 oncomplete="PF('editaDlg').hide();" />
 			</center>
 		</h:form>
 	</p:dialog>
-
-    <h:outputScript target="head">
-		function handleSaveRequest(xhr, status, args) {  
-           if (!args.validationFailed) { 
-   				if (args.jaExisteNome) 
-               		alert('Já existe um produto com este nome.');	 
-				else
-					PF('editaDlg').hide();             
-           }
-   		}  
-	</h:outputScript>
 			
 </ui:define>
 </ui:composition>
