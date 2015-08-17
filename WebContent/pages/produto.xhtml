@@ -7,18 +7,18 @@
 
 <ui:define name="conteudo">
 	<div class="container-fluid" style="max-width: 900px;">
-	<p:messages />
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable  var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable"
 		              editable="true"
 		              selection="#{produtoMB.produtoEmEdicao}" selectionMode="single" rowKey="#{v.id}"
-		              paginator="true" rows="10" 
+		              paginator="true" paginatorPosition="bottom" rows="10" 
 		              paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                 {PageLinks} {NextPageLink} {LastPageLink}">
 			<p:ajax event="rowEdit" listener="#{produtoMB.inserirProduto}" />
 			<f:facet name="header">Produtos</f:facet>
                 <p:column sortBy="#{v.descricao}">
+				<p:growl />
 				<f:facet name="header">Nome</f:facet>
 					<p:cellEditor>
 						<f:facet name="output">
@@ -42,7 +42,8 @@
 							</h:outputText>	
 						</f:facet>
 						<f:facet name="input">
-							<h:inputText value="#{v.valor}" style="text-align: right;" required="true" >
+							<h:inputText value="#{v.valor}" style="text-align: right;" 
+							             required="true" requiredMessage="Valor deve ser informado.">
 								<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
                             </h:inputText>
 						</f:facet>

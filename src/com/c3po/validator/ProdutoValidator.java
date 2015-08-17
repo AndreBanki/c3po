@@ -17,12 +17,12 @@ public class ProdutoValidator implements Validator {
      public void validate(FacesContext arg0, UIComponent arg1, Object valorTela) throws ValidatorException {
  		List<Produto> produtos = (List<Produto>) arg1.getAttributes().get("listaProduto");
  		
- 		String valorAnterior = (String) arg1.getAttributes().get("valorAtual");
- 		Produto produtoEmEdicao = getAsObject(produtos, String.valueOf(valorAnterior));
+ 		String valorAtual = (String) arg1.getAttributes().get("valorAtual");
+ 		Produto produtoEmEdicao = getAsObject(produtos, String.valueOf(valorAtual));
  		
  		Produto produtoMesmoNome = produtoMesmoNome(produtos, String.valueOf(valorTela));
 
- 		if (produtoMesmoNome.getId() != produtoEmEdicao.getId()) {
+ 		if (produtoMesmoNome != null && produtoMesmoNome.getId() != produtoEmEdicao.getId()) {
            FacesMessage message = new FacesMessage();
            message.setSeverity(FacesMessage.SEVERITY_ERROR);
            message.setSummary("Já existe um produto com este nome");
@@ -40,8 +40,8 @@ public class ProdutoValidator implements Validator {
 	}
 		
 	private Produto produtoMesmoNome(List<Produto> produtos, String nome) {
-		Produto prodIgual = new Produto();
-		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext() && prodIgual.getId() == null; ) {    
+		Produto prodIgual = null;
+		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext() && prodIgual == null; ) {    
 			Produto prod = (Produto) iterator.next();    
 			if (prod.getDescricao().equals(nome))
 				prodIgual = prod;
