@@ -19,4 +19,8 @@
 	     <validator-id>validator.CpfValidator</validator-id>
 	     <validator-class>com.c3po.validator.CpfValidator</validator-class>
 	</validator>
+	<validator>
+	     <validator-id>validator.ProdutoValidator</validator-id>
+	     <validator-class>com.c3po.validator.ProdutoValidator</validator-class>
+	</validator>
 </faces-config>

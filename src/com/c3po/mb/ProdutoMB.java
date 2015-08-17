@@ -37,16 +37,7 @@ public class ProdutoMB {
 		produtoEmEdicao = new Produto();
 	}
 	
-	private Produto produtoMesmoNome(Produto produto) {
-		Produto prodIgual = new Produto();
-		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext() && prodIgual.getId() == null; ) {    
-			Produto prod = (Produto) iterator.next();    
-			if (prod.getDescricao().equals(produto.getDescricao()))
-				prodIgual = prod;
-		}
-		return prodIgual;
-	}	
-	
+
 // mï¿½todos para acesso ao BD	
 	
 	public void apagarProduto() {
@@ -55,17 +46,8 @@ public class ProdutoMB {
 	}
 	
 	public void inserirProduto() {
-		Produto produtoMesmoNome = produtoMesmoNome(produtoEmEdicao);
-		if (produtoMesmoNome.getId() != produtoEmEdicao.getId()) {
-			RequestContext context = RequestContext.getCurrentInstance();
-			String JScommand = "alert('Já existe um produto com este nome.');";
-			context.execute(JScommand);
-			atualizaListaProdutosParaExibicao();
-		}
-		else {
-			dao.salvar(produtoEmEdicao);
-            atualizaListaProdutosParaExibicao();
-		}
+		dao.salvar(produtoEmEdicao);
+        atualizaListaProdutosParaExibicao();
 	}
 	
 // getters e setters	

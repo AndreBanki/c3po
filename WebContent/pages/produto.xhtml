@@ -7,6 +7,7 @@
 
 <ui:define name="conteudo">
 	<div class="container-fluid" style="max-width: 900px;">
+	<p:messages />
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable  var="v" value="#{produtoMB.produtos}" id="dataWidget" widgetVar="carsTable"
@@ -24,7 +25,11 @@
 							<h:outputText value="#{v.descricao}" />
 						</f:facet>
 						<f:facet name="input">
-							<h:inputText value="#{v.descricao}" required="true"/>
+							<h:inputText value="#{v.descricao}" required="true">
+								<f:validator validatorId="validator.ProdutoValidator" />
+								<f:attribute name="listaProduto" value="#{produtoMB.produtos}" />
+								<f:attribute name="valorAtual" value="#{v.descricao}" />
+							</h:inputText>
 						</f:facet>
 					</p:cellEditor>
 				</p:column>			
