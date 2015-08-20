@@ -46,8 +46,11 @@
 			</div>	
 	        <div class="ui-grid-col-4">
 	        <p:panel id="panelPedido" header="Seu pedido" style="background-color:white;">
+	        	<p:outputLabel value="Seu carrinho está vazio." 
+	        	               rendered="#{pedidoMB.itens.size() == 0}"/>
 				<h:form id="formPedido"> 
-					<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable">
+					<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable"  
+					             rendered="#{pedidoMB.itens.size() > 0}">
 						<p:column>
 							<f:facet name="header">Item</f:facet>
 							<p:commandLink value="(#{v.quantidade}x) #{v.getProduto().descricao}" 
@@ -79,10 +82,12 @@
 	                <h:panelGrid columns="2">
 	                    <p:commandButton id="finalizarBtn" 
 	                                     value="Confirmar"
+	                                     rendered="#{pedidoMB.itens.size() > 0}"
 	                                     icon="ui-icon-cart" 
 	                                     onclick="PF('finalizarDlg').show();" />
 	                    <p:commandButton id="cancelarBtn" 
-	                                     value="Cancelar"  
+	                                     value="Cancelar"
+	                                     rendered="#{pedidoMB.itens.size() > 0}"
 	                                     icon="ui-icon-circle-close"
 	                                     onclick="PF('cancelaDlg').show();" />
 	                </h:panelGrid>
@@ -141,7 +146,7 @@
 			<center>
 			<h:panelGrid columns="2">
 				<p:commandButton value="Sim" 
-				                 update=":formPedido:dataWidget" process="@form" 
+				                 update=":formPedido" process="@form" 
 				                 action="#{pedidoMB.cancelar()}" 
 				                 oncomplete="PF('cancelaDlg').hide();" />
 				<p:commandButton value="Não" 
