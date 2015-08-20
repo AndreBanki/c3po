@@ -10,6 +10,7 @@
 		<h3>Bem-vindo ao C3PO Delivery!</h3>
 		<h4>Crie seu cadastro abaixo e faça seu pedido online.</h4>
 	</div>
+	<p:panel id="panelPedido" style="background-color:white; max-width: 800px;">
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputText value="CPF: " /> 
@@ -25,6 +26,6 @@
 		<p:commandButton value="Criar cadastro" 
 		                 action="#{cadastroMB.cadastrarUsuario}"/>
 	</h:form>
-	
+	</p:panel>
 </ui:define>
 </ui:composition>
