@@ -14,8 +14,22 @@
     		<redirect />
     	</navigation-case>
     </navigation-rule>
-    
-	<validator>
+     <navigation-rule>
+    	<from-view-id>*</from-view-id>
+    	<navigation-case>
+    		<from-outcome>finalizado</from-outcome>
+    		<to-view-id>/pages/obrigado.xhtml</to-view-id>
+    		<redirect />
+    	</navigation-case>
+    </navigation-rule>   
+     <navigation-rule>
+    	<from-view-id>*</from-view-id>
+    	<navigation-case>
+    		<from-outcome>pedido</from-outcome>
+    		<to-view-id>/pages/pedidov2.xhtml</to-view-id>
+    		<redirect />
+    	</navigation-case>
+    </navigation-rule> 	<validator>
 	     <validator-id>validator.CpfValidator</validator-id>
 	     <validator-class>com.c3po.validator.CpfValidator</validator-class>
 	</validator>

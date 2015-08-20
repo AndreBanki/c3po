@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14395945373811" configfile="/C3PO/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14396621316460" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14396621316481" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14396621316460" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14396621316481 pf14400342119740" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf14396621316482" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14396621316481" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/obrigado.xhtml" id="pf14400342119751" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14400342119740" path="/pages/obrigado.xhtml"/>
   <links id="pf14396621316481" target="pf14396621316482" source="pf14396621316460" outcome="logout" redirect="true"/>
+  <links id="pf14400342119740" target="pf14400342119751" source="pf14396621316460" outcome="finalizado" redirect="true"/>
 </pageflow:Pageflow>

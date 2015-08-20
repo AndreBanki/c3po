@@ -37,7 +37,7 @@ public class AutenticacaoMB {
 		if(cliente != null && cliente.getId() != 0){
 			this.selfService = true;
 			session.setAttribute("idCliente", cliente.getId());
-			return "/pages/pedido.jsf";
+			return "pedido";
 		}
 		else {
 			this.selfService = false;

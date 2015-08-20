@@ -36,7 +36,7 @@ public class CadastroMB {
 		ClienteDAO dao = new ClienteDAO();
 		dao.salvar(cliente);
 		
-		return "/pages/pedido.jsf";
+		return "pedido";
 	}
 	
 	public String getNome() {
