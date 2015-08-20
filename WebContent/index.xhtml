@@ -10,6 +10,33 @@
 	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
 </h:head>	
 <h:body>	
+	<h:form name="restrito">
+	<p:menubar style="height:45px">
+        <f:facet name="options">
+        	<span style="font-size: 12px;">
+	        	Login:
+	        </span>	
+        	<p:inputMask id="cpfFuncionario" required="true"
+        	             style="font-size: 12px; width: 120px; height: 30px;"
+						 value="#{autenticacaoMB.cpf}"
+						 mask="99999999999" >
+				<f:validator validatorId="validator.CpfValidator" />
+			</p:inputMask>	
+        	<span style="font-size: 12px;">
+        		Senha:
+        	</span>
+        	<p:password id="senha" required="true"
+        	            style="font-size: 12px; width: 120px; height: 30px;"
+						value="#{autenticacaoMB.senha}" />
+			<span>
+			<p:commandButton action="#{autenticacaoMB.autenticaFuncionario}" 
+           	                 style="font-size: 12px; width: 150px; height: 30px; margin-top:-10px;"
+			                 value="Acesso restrito" icon="ui-icon-locked" />
+			</span>                 
+        </f:facet>        
+	</p:menubar>
+	</h:form>
+
 	<div class="wrapper">
 		<div class="container">
     		<div class="well">
@@ -28,8 +55,6 @@
 					<p:message for="cpf" />
 					<h:commandButton action="#{autenticacaoMB.autenticaCliente}"
 						value="Entrar" />
-					<h:commandLink action="#{autenticacaoMB.autenticaFuncionario}"
-						value="Entrar como funcionário" />
 				</h:form>
 			</div>
 		</div>

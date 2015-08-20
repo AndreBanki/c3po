@@ -18,6 +18,7 @@ import com.c3po.entidade.Funcionario;
 public class AutenticacaoMB {
 
 	private String cpf;
+	private String senha;
 	private Boolean acessoCadastros = false;
 	private Boolean selfService = false;
 	
@@ -54,7 +55,7 @@ public class AutenticacaoMB {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		session.setAttribute("cpfUsuario", cpf);
 
-		if(usuario != null && usuario.getId() != 0){
+		if(usuario != null && usuario.getId() != 0 && this.senha.equals(usuario.getSenha())){
 			session.setAttribute("idFuncionario", usuario.getId());
 			
 			this.acessoCadastros = true;
@@ -65,7 +66,7 @@ public class AutenticacaoMB {
 		else {
 			FacesContext fcontext = FacesContext.getCurrentInstance();
 			fcontext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-					"Funcionário não cadastrado!", ""));
+					"Login inválido!", ""));
 			return "";
 		}	
 	}	
@@ -74,6 +75,11 @@ public class AutenticacaoMB {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		session.invalidate();
+		
+		this.cpf = "";
+		this.senha = "";
+		this.acessoCadastros = false;
+		this.selfService = false;
 
 		//Retorna para página de index através da navegação
 		//configurada no faces-config.xml
@@ -94,6 +100,14 @@ public class AutenticacaoMB {
 
 	public Boolean getSelfService() {
 		return this.selfService;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

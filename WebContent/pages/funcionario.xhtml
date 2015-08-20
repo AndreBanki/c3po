@@ -75,7 +75,12 @@
                              value="#{funcionarioMB.funcionarioEmEdicao.cpf}" 
                              mask="99999999999" >
                 	<f:validator validatorId="validator.CpfValidator" />
-                </p:inputMask>             
+                </p:inputMask> 
+				<h:outputText value="Senha*: " /> 
+				<p:password id="inSenha" value="#{funcionarioMB.funcionarioEmEdicao.senha}" 
+				            feedback="true" required="true" 
+				            promptLabel="Informe sua senha" 
+				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>           
 			</p:panelGrid>
 			<p:messages />
 			<br/>

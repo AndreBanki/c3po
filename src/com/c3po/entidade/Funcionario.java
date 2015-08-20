@@ -31,6 +31,10 @@ public class Funcionario implements Serializable {
     private String nome;
     @Column(name = "cpf")
     private String cpf;
+    @Column(name = "senha")
+    private String senha;
+    
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcionario")
     private List<Pedido> pedidoList;
 
@@ -65,7 +69,15 @@ public class Funcionario implements Serializable {
         this.cpf = cpf;
     }
 
-    public List<Pedido> getPedidoList() {
+    public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public List<Pedido> getPedidoList() {
         return pedidoList;
     }
 
