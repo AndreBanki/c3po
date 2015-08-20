@@ -7,12 +7,16 @@
 
 <ui:define name="conteudo">
 
-	<h4>Bem-vindo, #{pedidoMB.getCliente().nome}</h4>
+<div class="container-fluid" style="max-width: 900px;">
+	<div class="well well-sm">
+		<h3>Bem-vindo, #{pedidoMB.getCliente().nome}</h3>
+		<h4>Escolha seus itens em nosso cardápio e pressione "Finalizar" para confirmar o seu pedido.</h4>
+	</div>	
 	
 	<h:form id="formMain"> 
   		<center>
 		<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable"
-		             paginator="true" rows="10" 
+		             paginator="true" paginatorPosition="bottom" rows="10" 
 		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                {PageLinks} {NextPageLink} {LastPageLink}">
 			<f:facet name="header">Itens do pedido</f:facet>
@@ -24,48 +28,50 @@
 					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.quantidade}">
+			<p:column sortBy="#{v.quantidade}" style="width: 100px;">
 				<f:facet name="header">Quant.</f:facet>
                                 <p:outputLabel value="#{v.quantidade}" style="text-align: right;"/>
 			</p:column>			
-			<p:column sortBy="#{v.getProduto().valor}">
+			<p:column sortBy="#{v.getProduto().valor}" style="width: 100px;">
 				<f:facet name="header">Valor</f:facet>
                                 <p:outputLabel value="#{v.produto.valor}" style="text-align: right;">
                                     <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
                                 </p:outputLabel>
 			</p:column>			
-			<p:column sortBy="#{v.total}">
+			<p:column sortBy="#{v.total}" style="width: 100px;">
 				<f:facet name="header">Total</f:facet>
                                 <p:outputLabel value="#{v.total}" style="text-align: right;">
                                     <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
                                 </p:outputLabel>
 				</p:column>			
-			<p:column width="50">
-				<p:commandButton icon="ui-icon-circle-minus" 
+			<p:column style="width: 20px;">
+				<p:commandLink styleClass="ui-icon ui-icon-circle-minus"
 				                 process="@form"
 				                 onclick="PF('confirmaDlg').show();">
 					<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
-				</p:commandButton>
+				</p:commandLink>
 			</p:column>
 		</p:dataTable>
 		</center>
 		<div align="left">
-                    <br/>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
             <center>
-            <div align="left">
                 <br/>
                 <h:panelGrid columns="2">
-                    <p:commandButton id="finalizarBtn" value="Finalizar" action="#{pedidoMB.finalizar()}" onclick="PF('finalizarDlg').show();" />
-                    <p:commandButton id="cancelarBtn" value="Cancelar"  action="#{pedidoMB.cancelar()}" />
+                    <p:commandButton id="finalizarBtn" value="Finalizar" 
+                                     icon="ui-icon-cart" 
+                                     action="#{pedidoMB.finalizar()}" 
+                                     onclick="PF('finalizarDlg').show();" />
+                    <p:commandButton id="cancelarBtn" value="Cancelar"  
+                                     icon="ui-icon-circle-close"
+                                     action="#{pedidoMB.cancelar()}" />
                 </h:panelGrid>
-            </div>
             </center>
 	</h:form>
-	
+</div>	
 	<p:dialog widgetVar="confirmaDlg" header="Item" modal="true" resizable="false">
 		<h:form id="formConfirma">
 			<h:outputText value="Deseja apagar este item?" />

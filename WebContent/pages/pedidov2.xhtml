@@ -11,9 +11,9 @@
 	<div class="ui-grid ui-grid-responsive">
 	    <div class="ui-grid-row">
 	        <div class="ui-grid-col-7">
-			<div class="well">
+			<div class="well well-sm">
 				<h3>Bem-vindo, #{pedidoMB.getCliente().nome}</h3>
-				<h4>Escolha seu itens em nosso cardápio e pressione "Finalizar" para confirmar o seu pedido.</h4>
+				<h4>Escolha seus itens em nosso cardápio e pressione "Finalizar" para confirmar o seu pedido.</h4>
 			</div>	
 			<h:form id="formMain"> 
 				<p:dataTable  var="v" value="#{pedidoMB.produtos}" id="dataWidget" widgetVar="carsTable"
@@ -48,26 +48,16 @@
 	        <p:panel id="panelPedido" header="Seu pedido" style="background-color:white;">
 				<h:form id="formPedido"> 
 					<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable">
-						<p:column sortBy="#{v.getProduto().descricao}">
+						<p:column>
 							<f:facet name="header">Item</f:facet>
-							<p:commandLink value="#{v.getProduto().descricao}" 
+							<p:commandLink value="(#{v.quantidade}x) #{v.getProduto().descricao}" 
 							               update=":editaWidget" process="@form" 
 							               oncomplete="PF('editaDlg').show()">
 								<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
 							</p:commandLink>
 							</p:column>			
-						<p:column style="width: 50px;">
-							<f:facet name="header">Quant.</f:facet>
-			                <p:outputLabel value="#{v.quantidade}" style="text-align: right;"/>
-						</p:column>			
-						<p:column sortBy="#{v.getProduto().valor}">
+						<p:column style="width: 100px;">
 							<f:facet name="header">Valor</f:facet>
-			                <p:outputLabel value="#{v.produto.valor}" style="text-align: right;">
-			                	<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
-			                </p:outputLabel>
-						</p:column>			
-						<p:column sortBy="#{v.total}">
-							<f:facet name="header">Total</f:facet>
 			                    <p:outputLabel value="#{v.total}" style="text-align: right;">
 			                        <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
 			                    </p:outputLabel>
