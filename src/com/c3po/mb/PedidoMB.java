@@ -112,12 +112,17 @@ public class PedidoMB {
             return "finalizado";
         }
         
-        public String cancelar(){
-            for(int i=0;i<itens.size();i++){
+        public void cancelar(){
+        	int nItems = itens.size();
+            for (int i=0; i<nItems; i++)
                 dao.retirarItem(itens.get(i));
-            }
+            
             dao.apagar(pedido);
-            return "index";
+            
+            pedido = new Pedido();
+            pedido.setCliente(this.cliente);
+            itens = null;
+            atualizaListaItensParaExibicao();
         }
 	
 // getters e setters	
