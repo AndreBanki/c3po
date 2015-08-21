@@ -6,8 +6,8 @@
 	maxActive="20" maxldle="10" maxWait="-1"
 	 name = "jdbc/c3po"
 	 type="javax.sql.DataSource"
-	 url="jdbc:mysql://localhost:3306/c3po"
-	 username="root"
-	 password=""
+	 url="jdbc:mysql://ec2-54-207-104-60.sa-east-1.compute.amazonaws.com:3306/c3po"
+	 username="banki"
+	 password="AltoQi"
 	 factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" />
 </Context>

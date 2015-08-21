@@ -7,10 +7,10 @@
 		<class>com.c3po.entidade.Funcionario</class>
 		<class>com.c3po.entidade.ItemPedido</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/c3po"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://ec2-54-207-104-60.sa-east-1.compute.amazonaws.com:3306/c3po"/>
+			<property name="javax.persistence.jdbc.user" value="banki"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.password" value=""/>
+			<property name="javax.persistence.jdbc.password" value="AltoQi"/>
 		</properties>
 	</persistence-unit>
 </persistence>
