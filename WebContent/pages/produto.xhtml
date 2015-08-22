@@ -25,7 +25,8 @@
 							<h:outputText value="#{v.descricao}" />
 						</f:facet>
 						<f:facet name="input">
-							<h:inputText value="#{v.descricao}" required="true">
+							<h:inputText value="#{v.descricao}" 
+							             required="true" requiredMessage="Informe o nome do produto">
 								<f:validator validatorId="validator.ProdutoValidator" />
 								<f:attribute name="listaProduto" value="#{produtoMB.produtos}" />
 								<f:attribute name="valorAtual" value="#{v.descricao}" />
@@ -45,6 +46,7 @@
 							<h:inputText value="#{v.valor}" style="text-align: right;" 
 							             required="true" requiredMessage="Valor deve ser informado.">
 								<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+								<f:validateLongRange minimum="1" />
                             </h:inputText>
 						</f:facet>
 					</p:cellEditor>
@@ -65,6 +67,7 @@
                     <br></br>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
+			                 action="#{produtoMB.limpaProdutoEmEdicao()}"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
@@ -79,7 +82,7 @@
 				                 update=":formMain:dataWidget" process="@form" 
 				                 action="#{produtoMB.apagarProduto}" 
 				                 oncomplete="PF('confirmaDlg').hide();" />
-                                <p:commandButton value="Não" action="#{produtoMB.apagarProduto()}"
+                <p:commandButton value="Não" action="#{produtoMB.apagarProduto()}"
 				                 update=":formMain:dataWidget" process="@form" 
 				                 oncomplete="PF('confirmaDlg').hide();" />
 			</h:panelGrid>
@@ -91,22 +94,33 @@
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome*: " /> 
-                                <p:inputText id="nome" value="#{produtoMB.produtoEmEdicao.descricao}" required="true" />
+                <p:inputText id="nome" required="true" 
+                             requiredMessage="Informe o nome do produto"
+                             value="#{produtoMB.produtoEmEdicao.descricao}" />
 				<h:outputText value="Valor*: " /> 
-                                <p:inputText id="valor" value="#{produtoMB.produtoEmEdicao.valor}" required="true" style="text-align: right;" >
-                                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
-                                </p:inputText>
+                <p:inputText id="valor" required="true" style="text-align: right;" 
+                             requiredMessage="Informe o valor do produto"
+                             value="#{produtoMB.produtoEmEdicao.valor}" >
+                    <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+                    <f:validateLongRange minimum="1" />
+                </p:inputText>
 			</p:panelGrid>
-			<p:message for="nome" />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
 				                 update=":formMain:dataWidget, formEdita" process="@form" 
 				                 action="#{produtoMB.inserirProduto}" 
-				                 oncomplete="PF('editaDlg').hide();" />
+				                 oncomplete="handleSaveRequest(xhr, status, args)" />
 			</center>
 		</h:form>
 	</p:dialog>
+	
+	<h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) 
+   				PF('editaDlg').hide();             
+   		}  
+	</h:outputScript>
 			
 </ui:define>
 </ui:composition>
