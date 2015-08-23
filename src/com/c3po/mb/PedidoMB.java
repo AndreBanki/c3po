@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import com.c3po.dao.ClienteDAO;
 import com.c3po.dao.FuncionarioDAO;
@@ -36,12 +36,14 @@ public class PedidoMB {
         
     private float valorTotal;
     private Boolean pedidoRecuperado;
+    
+    @ManagedProperty(value="#{autenticacaoMB}")
+    private AutenticacaoMB autenticacaoMB;
 	
-	public PedidoMB() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		String cpf = (String)session.getAttribute("cpfUsuario");
-		dao = new PedidoDAO();
+	@PostConstruct
+	public void init() {
+		String cpf = autenticacaoMB.getCpf();
+		
 		ClienteDAO clienteDao = new ClienteDAO();
 		this.cliente = clienteDao.buscaPorCpf(cpf);
                 
@@ -131,30 +133,22 @@ public class PedidoMB {
             atualizaListaItensParaExibicao();
         }
 	
-// getters e setters	
-	
-	public List<ItemPedido> getItens(){		
-		return itens;
+// getters e setters
+        
+	public void setAutenticacaoMB(AutenticacaoMB autenticacaoMB) {
+		this.autenticacaoMB = autenticacaoMB;
 	}
 
-	public void setItens(List<ItemPedido> itens) {
-		this.itens = itens;
+	public List<ItemPedido> getItens(){		
+		return itens;
 	}
 
 	public Pedido getPedido() {
 		return pedido;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 
 	public void setItemEmEdicao(ItemPedido itemEmEdicao) {
@@ -164,8 +158,6 @@ public class PedidoMB {
 	public ItemPedido getItemEmEdicao() {
 		return itemEmEdicao;
 	}
-
-	// métodos apenas para consulta
 
     public float getValorTotal() {
         return valorTotal;

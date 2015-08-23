@@ -1,6 +1,8 @@
 package com.c3po.mb;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -17,12 +19,12 @@ public class CadastroMB {
 	private String telefone;
 	private String cpf;
 	
-	public CadastroMB(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		String cpf = (String)session.getAttribute("cpfUsuario");
-		
-		this.cpf = cpf;
+    @ManagedProperty(value="#{autenticacaoMB}")
+    private AutenticacaoMB autenticacaoMB;	
+	
+	@PostConstruct
+	public void init() {
+		this.cpf = autenticacaoMB.getCpf();
 	}
 	
 	public String cadastrarUsuario() {
@@ -37,6 +39,10 @@ public class CadastroMB {
 		
 		return "pedido";
 	}
+	
+	public void setAutenticacaoMB(AutenticacaoMB autenticacaoMB) {
+		this.autenticacaoMB = autenticacaoMB;
+	}	
 	
 	public String getNome() {
 		return nome;

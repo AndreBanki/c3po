@@ -36,7 +36,6 @@ public class AutenticacaoMB {
 		
 		if(cliente != null && cliente.getId() != 0){
 			this.selfService = true;
-			session.setAttribute("idCliente", cliente.getId());
 			return "pedido";
 		}
 		else {
@@ -56,8 +55,6 @@ public class AutenticacaoMB {
 		session.setAttribute("cpfUsuario", cpf);
 
 		if(usuario != null && usuario.getId() != 0 && this.senha.equals(usuario.getSenha())){
-			session.setAttribute("idFuncionario", usuario.getId());
-			
 			this.acessoCadastros = true;
 			this.selfService = false;
 			
