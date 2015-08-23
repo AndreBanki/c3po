@@ -25,17 +25,11 @@ import com.c3po.entidade.Produto;
 public class PedidoMB {
 	
 	private Pedido pedido;
-	private Cliente cliente;
-	private Funcionario funcionario;
-	
 	private PedidoDAO dao;
 
 	private ItemPedido itemEmEdicao;
-	private List<ItemPedido> itens;
-	
 	private List<Produto> produtos;
         
-    private float valorTotal;
     private Boolean pedidoRecuperado;
     
     @ManagedProperty(value="#{autenticacaoMB}")
@@ -51,7 +45,10 @@ public class PedidoMB {
 
         String cpf = autenticacaoMB.getCpf();
         Boolean selfService = autenticacaoMB.getSelfService();
+        
         // procura por um pedido aberto do cliente ou do funcionário
+    	Cliente cliente = null;
+    	Funcionario funcionario = null;
         if (selfService == true) {
     		cliente = clienteDao.buscaPorCpf(cpf);
     		if(cliente != null)
@@ -83,9 +80,8 @@ public class PedidoMB {
 	
 	   public void atualizaListaItensParaExibicao() {
         if (pedido.getId() != null) {
-            itens = dao.listarTodosItens(pedido);
+        	List<ItemPedido> itens = dao.listarTodosItens(pedido);
             pedido.setItempedidoList(itens);
-            valorTotal = pedido.getValorTotal();
         }
         itemEmEdicao = new ItemPedido();
     }
@@ -109,7 +105,7 @@ public class PedidoMB {
 	}
 	
 	public void inserirItem() {
-		if (itens == null) {
+		if (pedido.getItempedidoList() == null) {
 			pedido.setData(new Date());
 			pedido.setSituacao(0);
 			pedido = dao.inserir(pedido);
@@ -123,20 +119,23 @@ public class PedidoMB {
         public String finalizar(){
             pedido.setSituacao(1);
             pedido = dao.inserir(pedido);
-            valorTotal= pedido.getValorTotal();
             return "finalizado";
         }
         
         public void cancelar(){
-        	int nItems = itens.size();
+        	// guarda os dados do pedido atual
+        	Cliente cliente = pedido.getCliente();
+        	Funcionario funcionario = pedido.getFuncionario();
+        	// apaga o pedido do banco
+        	int nItems = pedido.getItempedidoList().size();
             for (int i=0; i<nItems; i++)
-                dao.retirarItem(itens.get(i));
-            
+                dao.retirarItem(pedido.getItempedidoList().get(i));
             dao.apagar(pedido);
-            
+            // reinicializa o pedido
             pedido = new Pedido();
-            pedido.setCliente(this.cliente);
-            itens = null;
+            pedido.setCliente(cliente);
+            pedido.setFuncionario(funcionario);
+            pedido.setSituacao(1);
             pedidoRecuperado = false;
             atualizaListaItensParaExibicao();
         }
@@ -148,7 +147,7 @@ public class PedidoMB {
 	}
 
 	public List<ItemPedido> getItens(){		
-		return itens;
+		return pedido.getItempedidoList();
 	}
 
 	public Pedido getPedido() {
@@ -156,7 +155,7 @@ public class PedidoMB {
 	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return pedido.getCliente();
 	}
 
 	public void setItemEmEdicao(ItemPedido itemEmEdicao) {
@@ -168,7 +167,7 @@ public class PedidoMB {
 	}
 
     public float getValorTotal() {
-        return valorTotal;
+        return pedido.getValorTotal();
     }
 
 	public List<Produto> getProdutos() {
