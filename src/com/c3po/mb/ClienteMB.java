@@ -30,7 +30,19 @@ public class ClienteMB {
 	
 	public void atualizaListaClientesParaExibicao() {
 		clientes = dao.listarTodos();
+		removeClienteComId1();
 		limpaClienteEmEdicao();
+	}
+	
+	public void removeClienteComId1() {
+		Boolean achou = false;
+		for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext() && !achou; ) {    
+			Cliente cli = (Cliente) iterator.next();    
+			if (cli.getId()== 1) {
+				clientes.remove(cli);
+				achou = true;
+			}
+		}
 	}
 	
 	public void limpaClienteEmEdicao() {

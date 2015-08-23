@@ -30,7 +30,19 @@ public class FuncionarioMB {
 	
 	public void atualizaListaFuncionariosParaExibicao() {
 		funcionarios = dao.listarTodos();
+		removeFuncionarioComId1();
 		limpaFuncionarioEmEdicao();
+	}
+	
+	public void removeFuncionarioComId1() {
+		Boolean achou = false;
+		for (Iterator<Funcionario> iterator = funcionarios.iterator(); iterator.hasNext() && !achou; ) {    
+			Funcionario func = (Funcionario) iterator.next();    
+			if (func.getId()== 1) {
+				funcionarios.remove(func);
+				achou = true;
+			}
+		}
 	}
 	
 	public void limpaFuncionarioEmEdicao() {
