@@ -51,6 +51,15 @@ public class Pedido implements Serializable {
     public Pedido(Integer id) {
         this.id = id;
     }
+    
+    public String getSituacaoAsString() {
+    	if (situacao == 0)
+    		return "Aberto";
+    	else if (situacao == 1)
+    		return "Finalizado";
+    	else
+    		return "Erro";
+    }
 
     public Integer getId() {
         return id;

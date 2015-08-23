@@ -14,7 +14,7 @@
 		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                {PageLinks} {NextPageLink} {LastPageLink}">
 			<f:facet name="header">Pedidos</f:facet>
-			<p:column sortBy="#{v.data}" style="width: 200px;">
+			<p:column sortBy="#{v.data}" style="width: 100px;">
 				<f:facet name="header">Data</f:facet>
 				<h:outputText value="#{v.data}">
 					<f:convertDateTime locale="pt_BR" type="date" />
@@ -28,7 +28,11 @@
 				<f:facet name="header">Funcionário</f:facet>
 				<h:outputText value="#{v.funcionario.nome}" />
 				</p:column>			
-			<p:column sortBy="#{v.valorTotal}" style="width: 200px; text-align: right;">
+			<p:column sortBy="#{v.situacaoAsString}" style="width: 100px;" >
+				<f:facet name="header">Status</f:facet>
+				<h:outputText value="#{v.situacaoAsString}" />
+				</p:column>
+			<p:column sortBy="#{v.valorTotal}" style="width: 100px; text-align: right;">
 				<f:facet name="header">Total</f:facet>
 				<h:outputText value="#{v.valorTotal}" >
 					<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
