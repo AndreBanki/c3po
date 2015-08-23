@@ -34,7 +34,7 @@
 				<p:commandLink styleClass="ui-icon ui-icon-circle-minus"
 				               process="@form"
 				               onclick="PF('confirmaDlg').show();">
-					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.produtoEmEdicao}" />
+					<f:setPropertyActionListener value="#{v}" target="#{funcionarioMB.funcionarioEmEdicao}" />
 				</p:commandLink>
 			</p:column>
 		</p:dataTable>
@@ -43,6 +43,7 @@
                     <br/>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
+			                 update="formEdita"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
@@ -55,7 +56,7 @@
 			<h:panelGrid columns="2">
 				<p:commandButton value="Sim" 
 				                 update=":formMain:dataWidget" process="@form" 
-                                                 action="#{funcionarioMB.apagarFuncionario()}" 
+                                 action="#{funcionarioMB.apagarFuncionario()}" 
 				                 oncomplete="PF('confirmaDlg').hide();" />
 				<p:commandButton value="Não" 
 				                 update=":formMain:dataWidget" process="@form" 
@@ -66,6 +67,7 @@
     </p:dialog>
     
 	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Funcionário" modal="true" resizable="false">
+		<p:ajax event="close" listener="#{funcionarioMB.limpaFuncionarioEmEdicao()}" update=":editaWidget" />
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nome*: " /> 
@@ -82,7 +84,7 @@
 				            promptLabel="Informe sua senha" 
 				            weakLabel="Fraca" goodLabel="Razoável" strongLabel="Boa"/>           
 			</p:panelGrid>
-			<p:messages />
+			<p:growl />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 

@@ -22,7 +22,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.cpf}" style="width: 200px;">
+			<p:column sortBy="#{v.cpf}" style="width: 150px;">
 				<f:facet name="header">CPF</f:facet>
 				<p:commandLink value="#{v.cpf}" 
 				               update=":editaWidget" process="@form" 
@@ -38,7 +38,7 @@
 					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
-			<p:column sortBy="#{v.telefone}" style="width: 200px;">
+			<p:column sortBy="#{v.telefone}" style="width: 150px;">
 				<f:facet name="header">Telefone</f:facet>
 				<p:commandLink value="#{v.telefone}" 
 				               update=":editaWidget" process="@form" 
@@ -50,7 +50,7 @@
 				<p:commandLink styleClass="ui-icon ui-icon-circle-minus"
 				               process="@form"
 				               onclick="PF('confirmaDlg').show();">
-					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.produtoEmEdicao}" />
+					<f:setPropertyActionListener value="#{v}" target="#{clienteMB.clienteEmEdicao}" />
 				</p:commandLink>
 				</p:column>			
 		</p:dataTable>
@@ -59,6 +59,7 @@
                     <br/>
 			<p:commandButton id="adicionarBtn" value="Adicionar" 
 			                 process="@form" type="button"
+			                 update="formEdita"
 			                 onclick="PF('editaDlg').show();" />
 		</div>
 	</h:form>
@@ -82,22 +83,31 @@
     </p:dialog>
     
 	<p:dialog id="editaWidget" widgetVar="editaDlg" header="Cliente" modal="true" resizable="false">
+		<p:ajax event="close" listener="#{clienteMB.limpaClienteEmEdicao()}" update="formEdita" />
 		<h:form id="formEdita">
 			<p:panelGrid columns="2">
-				<h:outputText value="Nome*: " /> 
-				<p:inputText id="nome" value="#{clienteMB.clienteEmEdicao.nome}" required="true" />
-				<h:outputText value="CPF*: " /> 
+				<h:outputText value="Nome: " /> 
+				<p:inputText id="nome" required="true" 
+				             requiredMessage="Informe o nome"
+				             value="#{clienteMB.clienteEmEdicao.nome}" />
+				<h:outputText value="CPF: " /> 
                 <p:inputMask id="cpf" required="true" 
+                             requiredMessage="Informe o CPF"
                              value="#{clienteMB.clienteEmEdicao.cpf}" 
                              mask="99999999999">
                 	<f:validator validatorId="validator.CpfValidator" />
                 </p:inputMask>             
 				<h:outputText value="Endereço: " /> 
-				<p:inputText id="endereco" value="#{clienteMB.clienteEmEdicao.endereco}" />
+				<p:inputText id="endereco" required="true" 
+                             requiredMessage="Informe o endereço"
+				             value="#{clienteMB.clienteEmEdicao.endereco}" />
 				<h:outputText value="Telefone: " /> 
-                                <p:inputMask id="telefone" value="#{clienteMB.clienteEmEdicao.telefone}" mask="(99)9999-9999"/>
+                <p:inputMask id="telefone" required="true" 
+                             requiredMessage="Informe o telefone"
+                             value="#{clienteMB.clienteEmEdicao.telefone}" 
+                             mask="(99)9999-9999"/>
 			</p:panelGrid>
-			<p:messages/>
+			<p:growl />
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
