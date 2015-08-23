@@ -83,6 +83,7 @@
 	                <h:panelGrid columns="2">
 	                    <p:commandButton id="finalizarBtn" 
 	                                     value="Confirmar"
+	                                     update="formFinalizar"
 	                                     rendered="#{pedidoMB.itens.size() > 0}"
 	                                     icon="ui-icon-cart" 
 	                                     onclick="PF('finalizarDlg').show();" />
