@@ -37,6 +37,7 @@ public class CadastroMB {
 		ClienteDAO dao = new ClienteDAO();
 		dao.salvar(cliente);
 		
+		autenticacaoMB.setSelfService(true);
 		return "pedido";
 	}
 	

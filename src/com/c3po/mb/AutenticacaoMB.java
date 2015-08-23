@@ -98,6 +98,10 @@ public class AutenticacaoMB {
 	public Boolean getSelfService() {
 		return this.selfService;
 	}
+	
+	public void setSelfService(Boolean selfService) {
+		this.selfService = selfService;
+	}
 
 	public String getSenha() {
 		return senha;

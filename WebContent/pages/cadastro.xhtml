@@ -11,19 +11,27 @@
 		<h4>Crie seu cadastro abaixo e faça seu pedido online.</h4>
 	</div>
 	<p:panel id="panelPedido" style="background-color:white; max-width: 800px;">
-	<h:form>
+	<h:form id="formCadastro">
 		<h:panelGrid columns="2">
 			<h:outputText value="CPF: " /> 
 			<p:inputText id="cpf" value="#{cadastroMB.cpf}" disabled="true" readonly="true"/>
 			<h:outputText value="Nome: " /> 
-			<p:inputText id="nome" value="#{cadastroMB.nome}" required="true" />
+			<p:inputText id="nome" required="true" 
+				             requiredMessage="Informe o nome"
+				             value="#{cadastroMB.nome}" />
 			<h:outputText value="Endereço: " /> 
-			<p:inputText id="endereco" value="#{cadastroMB.endereco}" required="true" />
+			<p:inputText id="endereco" required="true" 
+                             requiredMessage="Informe o endereço"
+				             value="#{cadastroMB.endereco}" />
 			<h:outputText value="Telefone: " /> 
-			<p:inputText id="telefone" value="#{cadastroMB.telefone}" required="true" />
+			<p:inputMask id="telefone" required="true" 
+                             requiredMessage="Informe o telefone"
+                             value="#{cadastroMB.telefone}" 
+                             mask="(99)9999-9999"/>
 		</h:panelGrid>
-		<p:messages />
+		<p:growl />
 		<p:commandButton value="Criar cadastro" 
+						 update="formCadastro"
 		                 action="#{cadastroMB.cadastrarUsuario}"/>
 	</h:form>
 	</p:panel>
