@@ -34,7 +34,8 @@ public class PedidoMB {
 	
 	private List<Produto> produtos;
         
-        private float valorTotal;
+    private float valorTotal;
+    private Boolean pedidoRecuperado;
 	
 	public PedidoMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -51,7 +52,10 @@ public class PedidoMB {
         if (pedido == null){
         	pedido = new Pedido();
             pedido.setCliente(this.cliente);
+            this.pedidoRecuperado = false;
         }
+        else
+        	this.pedidoRecuperado = true;
 		
 		atualizaListaItensParaExibicao();
 		
@@ -66,6 +70,7 @@ public class PedidoMB {
 	   public void atualizaListaItensParaExibicao() {
         if (pedido.getId() != null) {
             itens = dao.listarTodosItens(pedido);
+            pedido.setItempedidoList(itens);
             valorTotal = pedido.getValorTotal();
         }
         itemEmEdicao = new ItemPedido();
@@ -122,6 +127,7 @@ public class PedidoMB {
             pedido = new Pedido();
             pedido.setCliente(this.cliente);
             itens = null;
+            pedidoRecuperado = false;
             atualizaListaItensParaExibicao();
         }
 	
@@ -129,6 +135,10 @@ public class PedidoMB {
 	
 	public List<ItemPedido> getItens(){		
 		return itens;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	public Pedido getPedido() {
@@ -147,32 +157,25 @@ public class PedidoMB {
 		this.cliente = cliente;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-
 	public void setItemEmEdicao(ItemPedido itemEmEdicao) {
 		this.itemEmEdicao = itemEmEdicao;
-	}
-
-	public void setItens(List<ItemPedido> itens) {
-		this.itens = itens;
 	}
 
 	public ItemPedido getItemEmEdicao() {
 		return itemEmEdicao;
 	}
 
-	public void setPedidoEmEdicao(ItemPedido item) {
-		this.itemEmEdicao = item;
-	}
+	// métodos apenas para consulta
 
     public float getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(float valorTotal) {
-        this.valorTotal = valorTotal;
-    }
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
 
+	public Boolean getPedidoRecuperado() {
+		return pedidoRecuperado;
+	}
 }

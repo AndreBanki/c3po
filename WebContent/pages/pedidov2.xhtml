@@ -11,10 +11,11 @@
 	<div class="ui-grid ui-grid-responsive">
 	    <div class="ui-grid-row">
 	        <div class="ui-grid-col-7">
-			<div class="well well-sm">
-				<h3>Bem-vindo, #{pedidoMB.getCliente().nome}</h3>
-				<h4>Escolha seus itens em nosso cardápio e pressione "Finalizar" para confirmar o seu pedido.</h4>
-			</div>	
+			<h:panelGroup id="titulo" layout="block" class="well well-sm" rendered="#{autenticacaoMB.selfService}">
+				<h3>Bem-vindo, #{pedidoMB.cliente.nome}</h3>
+				<h:panelGroup rendered="#{!pedidoMB.pedidoRecuperado}">Escolha seus itens em nosso cardápio e pressione "Finalizar" para confirmar o seu pedido.</h:panelGroup>
+				<h:panelGroup rendered="#{pedidoMB.pedidoRecuperado}">Você tem um pedido em aberto. Pressione "Finalizar" para confirmá-lo ou "Cancelar" para iniciar um novo.</h:panelGroup>
+			</h:panelGroup>	
 			<h:form id="formMain"> 
 				<p:dataTable  var="v" value="#{pedidoMB.produtos}" id="dataWidget" widgetVar="carsTable"
 				              paginator="true" paginatorPosition="bottom" rows="10" 
@@ -49,7 +50,7 @@
 	        	<p:outputLabel value="Seu carrinho está vazio." 
 	        	               rendered="#{pedidoMB.itens.size() == 0}"/>
 				<h:form id="formPedido"> 
-					<p:dataTable var="v" value="#{pedidoMB.itens}" id="dataWidget" widgetVar="carsTable"  
+					<p:dataTable var="v" value="#{pedidoMB.itens}" id="pedidoWidget" widgetVar="pedidoTable"  
 					             rendered="#{pedidoMB.itens.size() > 0}">
 						<p:column>
 							<f:facet name="header">Item</f:facet>
@@ -59,7 +60,7 @@
 								<f:setPropertyActionListener value="#{v}" target="#{pedidoMB.itemEmEdicao}" />
 							</p:commandLink>
 							</p:column>			
-						<p:column style="width: 100px;">
+						<p:column style="width: 70px;">
 							<f:facet name="header">Valor</f:facet>
 			                    <p:outputLabel value="#{v.total}" style="text-align: right;">
 			                        <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
@@ -107,19 +108,26 @@
                 <p:inputText id="quant" value="#{pedidoMB.itemEmEdicao.quantidade}" 
                              required="true" style="text-align: right;">
 					<f:convertNumber integerOnly="true" />
+					<f:validateLongRange minimum="1" />
 				</p:inputText>
 			</p:panelGrid>
-			<p:messages/>
+			<p:growl/>
 			<br/>
 			<center>
 				<p:commandButton value="Salvar" 
-				                 update=":formPedido:dataWidget, formEdita" process="@form" 
+				                 update="formPedido, formEdita" process="@form" 
 				                 action="#{pedidoMB.inserirItem}" 
-				                 oncomplete="PF('editaDlg').hide();" 
-				                 ajax="false" />
+				                 oncomplete="handleSaveRequest(xhr, status, args);" />
 			</center>
 		</h:form>
 	</p:dialog>
+	
+    <h:outputScript target="head">
+		function handleSaveRequest(xhr, status, args) {  
+           if (!args.validationFailed) 
+				PF('editaDlg').hide();             
+   		}  
+	</h:outputScript>
 	
 	<p:dialog widgetVar="confirmaDlg" header="Item" modal="true" resizable="false">
 		<h:form id="formConfirma">
@@ -150,7 +158,7 @@
 				                 action="#{pedidoMB.cancelar()}" 
 				                 oncomplete="PF('cancelaDlg').hide();" />
 				<p:commandButton value="Não" 
-				                 update=":formPedido:dataWidget" process="@form" 
+				                 update=":formPedido:pedidoWidget,titulo" process="@form" 
 				                 oncomplete="PF('cancelaDlg').hide();" />
 			</h:panelGrid>
 			</center>	
