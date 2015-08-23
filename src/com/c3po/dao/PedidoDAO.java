@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import com.c3po.entidade.Cliente;
 import com.c3po.entidade.ItemPedido;
 import com.c3po.entidade.Pedido;
-import com.c3po.entidade.Produto;
 
 public class PedidoDAO extends BaseDAO{
 	

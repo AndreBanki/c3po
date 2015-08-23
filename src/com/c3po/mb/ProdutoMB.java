@@ -1,13 +1,11 @@
 package com.c3po.mb;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.context.RequestContext;
 
 import com.c3po.dao.ProdutoDAO;
 import com.c3po.entidade.Produto;

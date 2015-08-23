@@ -74,6 +74,7 @@ public class FuncionarioMB {
 		}
 		else {
 			dao.salvar(funcionarioEmEdicao);
+                        limpaFuncionarioEmEdicao();
             atualizaListaFuncionariosParaExibicao();
 		}
 	}

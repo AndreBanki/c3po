@@ -6,7 +6,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.c3po.dao.PedidoDAO;
-import com.c3po.entidade.ItemPedido;
 import com.c3po.entidade.Pedido;
 
 @ManagedBean

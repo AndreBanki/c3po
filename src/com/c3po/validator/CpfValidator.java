@@ -5,12 +5,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import java.util.ResourceBundle;
  
 /**
-* Validação de CPF.
+* Validaï¿½ï¿½o de CPF.
 *
-* @author Pablo Nóbrega
+* @author Pablo Nï¿½brega
 */
 public class CpfValidator implements Validator {
      @Override
@@ -18,16 +17,16 @@ public class CpfValidator implements Validator {
           if (!validaCPF(String.valueOf(valorTela))) {
                FacesMessage message = new FacesMessage();
                message.setSeverity(FacesMessage.SEVERITY_ERROR);
-               message.setSummary("CPF inválido");
+               message.setSummary("CPF invï¿½lido");
                throw new ValidatorException(message);
           }
      }
  
      /**
-     * Valida CPF do usuário. Não aceita CPF's padrões como
+     * Valida CPF do usuï¿½rio. Nï¿½o aceita CPF's padrï¿½es como
      * 11111111111 ou 22222222222
      *
-     * @param cpf String valor com 11 dígitos
+     * @param cpf String valor com 11 dï¿½gitos
      */
      private static boolean validaCPF(String cpf) {
           if (cpf == null || cpf.length() != 11 || isCPFPadrao(cpf))
@@ -35,7 +34,7 @@ public class CpfValidator implements Validator {
  
           try {
                Long.parseLong(cpf);
-          } catch (NumberFormatException e) { // CPF não possui somente números
+          } catch (NumberFormatException e) { // CPF nï¿½o possui somente nï¿½meros
            return false;
           }
  
@@ -45,7 +44,7 @@ public class CpfValidator implements Validator {
      /**
      *
      * @param cpf String valor a ser testado
-     * @return boolean indicando se o usuário entrou com um CPF padrão
+     * @return boolean indicando se o usuï¿½rio entrou com um CPF padrï¿½o
      */
      private static boolean isCPFPadrao(String cpf) {
           if (cpf.equals("11111111111") || cpf.equals("22222222222")
