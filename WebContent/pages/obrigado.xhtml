@@ -7,10 +7,14 @@
 
 <ui:define name="conteudo">
 	<div class="container-fluid">
-		<div class="well">
+		<h:panelGroup rendered="#{autenticacaoMB.selfService}"><div class="well">
 			<h3>Obrigado por comprar no C3PO Delivery!</h3>
 			<h4>Seu pedido foi recebido e será preparado em breve.</h4>
-		</div>
+		</div></h:panelGroup>
+		<h:panelGroup rendered="#{!autenticacaoMB.selfService}"><div class="well">
+			<h3>Pedido registrado com sucesso!</h3>
+			<h4>Acompanhe a preparação do pedido e o leve à mesa assim que estiver pronto.</h4>
+		</div></h:panelGroup>
 	</div>
 </ui:define>
 </ui:composition>

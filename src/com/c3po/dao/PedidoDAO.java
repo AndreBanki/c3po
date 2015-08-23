@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.c3po.entidade.Cliente;
+import com.c3po.entidade.Funcionario;
 import com.c3po.entidade.ItemPedido;
 import com.c3po.entidade.Pedido;
 
@@ -63,7 +64,25 @@ public class PedidoDAO extends BaseDAO{
 		return pedido;
 	}
 		
-	public Pedido inserir(Pedido pedido) {
+    public Pedido pedidoAberto(Funcionario func) {
+		EntityManager manager = getConnection();
+                manager.getTransaction().begin();
+                Pedido pedido=null;
+		try {
+			Query q = manager.createQuery("select p from Pedido p where p.funcionario.id=" + func.getId() + " and p.situacao=0  order by p.id");
+            if (q.getResultList().size()>0){
+                pedido = (Pedido) q.getSingleResult();
+            }
+            return pedido;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			fechar();
+		}
+		return pedido;
+	}
+        
+    public Pedido inserir(Pedido pedido) {
 		EntityManager manager = getConnection();
 		try {
                         manager.getTransaction().begin();

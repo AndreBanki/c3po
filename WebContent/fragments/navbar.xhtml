@@ -7,10 +7,7 @@
 	<h:form>
 
 	<p:menubar style="margin-top:20px" autoDisplay="false">
-		<p:menuitem action="/pages/pedidov2.jsf" value="Fazer pedido" icon="ui-icon-document" 
-		            rendered="#{autenticacaoMB.selfService}"/>
-		<p:menuitem action="/pages/pedido.jsf" value="Pedido (versão anterior)" icon="ui-icon-document" 
-		            rendered="#{autenticacaoMB.selfService}"/>
+		<p:menuitem action="/pages/pedidov2.jsf" value="Fazer pedido" icon="ui-icon-document" />
 		<p:submenu label="Cadastros" rendered="#{autenticacaoMB.acessoCadastros}">
 			<p:menuitem action="/pages/cliente.jsf" value="Clientes" />
 			<p:menuitem action="/pages/funcionario.jsf" value="Funcionários" />

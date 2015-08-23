@@ -26,6 +26,7 @@ public class PedidoMB {
 	
 	private Pedido pedido;
 	private Cliente cliente;
+	private Funcionario funcionario;
 	
 	private PedidoDAO dao;
 
@@ -42,29 +43,40 @@ public class PedidoMB {
 	
 	@PostConstruct
 	public void init() {
-		String cpf = autenticacaoMB.getCpf();
-		
-		ClienteDAO clienteDao = new ClienteDAO();
-		this.cliente = clienteDao.buscaPorCpf(cpf);
-                
         dao = new PedidoDAO();
-		if(cliente != null){
-        	pedido = dao.pedidoAberto(cliente);
+		ClienteDAO clienteDao = new ClienteDAO();
+		FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+		ProdutoDAO produtoDao = new ProdutoDAO();
+		produtos = produtoDao.listarTodos();
+
+        String cpf = autenticacaoMB.getCpf();
+        Boolean selfService = autenticacaoMB.getSelfService();
+        // procura por um pedido aberto do cliente ou do funcionário
+        if (selfService == true) {
+    		cliente = clienteDao.buscaPorCpf(cpf);
+    		if(cliente != null)
+            	pedido = dao.pedidoAberto(cliente);
+        } else {
+    		funcionario = funcionarioDao.buscaPorCpf(cpf);
+    		if(funcionario != null)
+            	pedido = dao.pedidoAberto(funcionario);
         }
+		// se nao encontrou, cria
         if (pedido == null){
         	pedido = new Pedido();
-            pedido.setCliente(this.cliente);
+        	if (selfService == true) 
+    			funcionario = funcionarioDao.buscaId(1);
+        	else 
+        		cliente = clienteDao.buscaId(1);
+        	
+    		pedido.setCliente(cliente);
+			pedido.setFuncionario(funcionario);
             this.pedidoRecuperado = false;
         }
         else
         	this.pedidoRecuperado = true;
 		
 		atualizaListaItensParaExibicao();
-		
-		// lista de todos os produtos (nï¿½o muda durante a ediï¿½ï¿½o da pï¿½gina)
-		ProdutoDAO produtoDao = new ProdutoDAO();
-		produtos = produtoDao.listarTodos();
-                
 	}
 	
 // mï¿½todos auxiliares
@@ -98,10 +110,6 @@ public class PedidoMB {
 	
 	public void inserirItem() {
 		if (itens == null) {
-			FuncionarioDAO funcionarioDao = new FuncionarioDAO();
-			Funcionario funcionarioDefault = funcionarioDao.buscaId(1); // TODO
-			pedido.setFuncionario(funcionarioDefault);
-			
 			pedido.setData(new Date());
 			pedido.setSituacao(0);
 			pedido = dao.inserir(pedido);
