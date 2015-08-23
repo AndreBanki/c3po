@@ -14,6 +14,9 @@
 		             paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
 		                                {PageLinks} {NextPageLink} {LastPageLink}">
 			<f:facet name="header">Pedidos</f:facet>
+			<p:column style="width: 16px;">
+				<p:rowToggler/>
+			</p:column>
 			<p:column sortBy="#{v.data}" style="width: 100px;">
 				<f:facet name="header">Data</f:facet>
 				<h:outputText value="#{v.data}">
@@ -45,6 +48,21 @@
                                     <f:setPropertyActionListener value="#{v}" target="#{pedidosMB.pedidoEmEdicao}" />
 				</p:commandLink>
 			</p:column>
+			<p:rowExpansion>
+				<p:dataTable var="item" value="#{v.itempedidoList}" 
+				             id="pedidoWidget" widgetVar="pedidoTable"
+				             style="width: 60%;"  
+				             rendered="#{v.itempedidoList.size() > 0}">
+					<p:column>
+						<h:outputText value="(#{item.quantidade}x) #{item.getProduto().descricao}"/>
+						</p:column>			
+					<p:column style="width: 70px;">
+	                    <p:outputLabel value="#{item.total}" style="text-align: right;">
+	                        <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+	                    </p:outputLabel>
+						</p:column>			
+				</p:dataTable>			
+			</p:rowExpansion>
 		</p:dataTable>
 		</center>
 	</h:form>
