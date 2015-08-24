@@ -58,7 +58,7 @@ public class AutenticacaoMB {
 			this.acessoCadastros = true;
 			this.selfService = false;
 			
-			return "/pages/produto.jsf";
+			return "pedido";
 		}
 		else {
 			FacesContext fcontext = FacesContext.getCurrentInstance();
